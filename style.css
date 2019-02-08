@@ -1,0 +1,11 @@
+table {
+    border: 2px double; /* Рамка вокруг таблицы */
+    border-collapse: collapse; /* Способ отображения границы */
+    width: 55%; /* Ширина таблицы */
+    border-spacing: 6px; /* Расстояние между ячейками */
+    text-align: center;
+}
+td {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid black; /* Параметры рамки */
+}
