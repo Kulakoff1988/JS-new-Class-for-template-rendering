@@ -4,6 +4,19 @@ class Project1 {
                 }) {
         this.Users = Users;
         this.Target = Target;
+        
+        const elem = document.querySelector('#add');
+        const name = document.querySelector('#name');
+        const age = document.querySelector('#age');
+        const comment = document.querySelector('#comment');
+
+        elem.addEventListener('click', () => this.Add({Name: name.value, Age: age.value, Comment: comment.value}));
+            document.addEventListener('keydown', evt => {
+            if(evt.keyCode === 13) {
+                return newData.Add({Name: name.value, Age: age.value, Comment: comment.value});
+        }
+    });
+        
         this.initialRender();
     }
     get Slaves() {
