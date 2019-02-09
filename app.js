@@ -16,9 +16,6 @@ document.addEventListener('keydown', evt => {
     if(evt.keyCode === 13) {
         return newData.Add({Name: name.value, Age: age.value, Comment: comment.value});
     }
-    if (evt.keyCode === 27) {
-        newData.RemoveAll();
-    }
 });
 
 newData.Add({Name: 'Gustav', Age: 12, Comment: 'best courier'});
