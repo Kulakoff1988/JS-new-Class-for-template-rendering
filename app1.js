@@ -40,4 +40,4 @@ class Project1 {
         this.Target.appendChild(newTr);
     };
 }
-
+//дописать код сброса форм;
