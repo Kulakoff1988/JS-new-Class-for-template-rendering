@@ -22,7 +22,7 @@ class Project1 {
             let newTd2 = document.createElement('td');
             newTd2.innerText = Users[i].Comment;
             newTr.appendChild(newTd2);
-            Target.appendChild(newTr);
+            this.Target.appendChild(newTr);
         };
     }
     get Slaves() {
@@ -30,8 +30,6 @@ class Project1 {
     }
     set Slaves(data) {
         this.Users = data;
-
-        thi
     }
     /**
      *
