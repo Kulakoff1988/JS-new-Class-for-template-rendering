@@ -7,7 +7,7 @@
 </head>
 <body>
  <table cellspacing="10" id="table">
-     <tr>
+     <tr class="title">
      <td>Name</td>
      <td>Age</td>
      <td>Comment</td>
@@ -16,12 +16,12 @@
  <br>
  <form action="" name="test" onsubmit="">
      <label>
-         <b>Enter name:</b> <input type="text" placeholder="User name" id="name">
+         <b>Enter name:</b> <input type="text" placeholder="User name" id="name" size="8">
      </label>
      <label>
-         <b>Enter age:</b> <input type="number" placeholder="User age" id="age"></label>
+         <b>Enter age:</b> <input type="number" placeholder="User age" id="age" min="18"></label>
      <label>
-         <b>Enter comment:</b> <input type="text" placeholder="User comment" id="comment">
+         <b>Enter comment:</b> <input type="text" placeholder="User comment" id="comment" size="10">
      </label>
      <input type="button" value="Add" id="add">
  </form>

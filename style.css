@@ -1,5 +1,5 @@
 table {
-    border: 2px double; /* Рамка вокруг таблицы */
+    border: 1px solid black; /* Рамка вокруг таблицы */
     border-collapse: collapse; /* Способ отображения границы */
     width: 55%; /* Ширина таблицы */
     border-spacing: 6px; /* Расстояние между ячейками */
@@ -8,4 +8,18 @@ table {
 td {
     padding: 3px; /* Поля вокруг содержимого таблицы */
     border: 1px solid black; /* Параметры рамки */
+}
+
+.remove {
+    border: none;
+    width: 20px;
+}
+
+input {
+    width: 100px;
+}
+
+.title {
+    font-weight: bold;
+    border: 2px double;
 }
