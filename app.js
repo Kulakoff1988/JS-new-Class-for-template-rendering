@@ -2,7 +2,11 @@ const sing = document.querySelector('#table');
 
 const newData = new Project1({
     Target: sing,
-    Template: `<td>${Comment}</td>>`,
+    Template:  `<tr class="title">
+                <td>${Name}</td>
+                <td>${Age}</td>
+                <td>${Comment}</td>
+                </t>`,
     Users: []
 });
 

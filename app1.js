@@ -5,12 +5,18 @@ class Project1 {
                 }) {
         this.Users = Users;
         this.Target = Target;
-        this.Line = Line;
+        this.Template = Template;
+
+        const Name = '';
+        const Age = '';
+        const Comment = '';
         
         const addLine = document.querySelector('#add');
+        /*
         const name = document.querySelector('#name');
         const age = document.querySelector('#age');
         const comment = document.querySelector('#comment');
+        */
         const clearForm = () => {
             name.value = '';
             age.value = '';
@@ -28,8 +34,9 @@ class Project1 {
                 clearForm()
             }
         });
-     
-        this._initialRender();
+        console.log(this.Users);
+        this.Target.innerHTML = this.Template;
+        //this._initialRender();
     }
     
     get Slaves() {
@@ -48,13 +55,14 @@ class Project1 {
     
     Add (item) {
         this.Users.push(item);
-        this._addLine(item);
+        console.log(this.Users);
+        //this._addLine(item);
     };
 
     RemoveAll () {
         this.Users = [];
     }
-    
+    /*
     _initialRender () {
         for (let u of this.Users) {
             this._addLine(u);
@@ -77,7 +85,7 @@ class Project1 {
     _removeButton (item, nameLine, ageLine, commentLine) {
         const remove = document.createElement('input');
         remove.type = 'button';
-        remove.value = 'Remove';
+        remove.value = 'Delete';
         remove.id = 'remove';
         remove.class = 'remove';
         this.Target.appendChild(remove);
@@ -89,5 +97,5 @@ class Project1 {
             this.Target.removeChild(commentLine);
             this.Target.removeChild(remove);
         });
-    };
+    };*/
 }
