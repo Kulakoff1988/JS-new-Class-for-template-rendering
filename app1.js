@@ -36,7 +36,7 @@ class Project1 {
     
     set Slaves(data) {
         this.Users = data;
-        //дописать код обновления таблицы;
+        initialRender();
     }
     
     Add (item) {
