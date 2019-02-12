@@ -1,15 +1,15 @@
 const sing = document.querySelector('#table');
 
-const newData = new Project1({
+const newData = new Project1 ({
     Target: sing,
-    Template:  `<tr class="title">
-                <td>${Name}</td>
-                <td>${Age}</td>
-                <td>${Comment}</td>
-                </t>`,
+    Template: `<div class="user-card">
+                  <div class="caption">%Name%</div>
+                  <input class="date-of-birth" type="text" value="%Age%">
+                  <textarea class="textareat">%Comment%</textarea>   
+                  <button class="button">Save</button>
+                </div>`,
     Users: []
 });
 
 
-//newData.Slaves = [{Name: 'Niger', Age: 12, Comment: 'best courier'}];
-newData.Add({Name: 'Gustav', Age: 12, Comment: 'best courier'});
+newData.Slaves = [{Name: 'Niger', Age: 25, Comment: 'best courier'}, {Name: 'Gustav', Age: 21, Comment: 'best seller'}];

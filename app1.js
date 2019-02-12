@@ -1,33 +1,36 @@
 class Project1 {
     constructor({   Target = void 0,
+                    Template = ``,
                     Users = [],
                 }) {
         this.Users = Users;
         this.Target = Target;
+        this.Template = Template;
         
-        const elem = document.querySelector('#add');
-        const name = document.querySelector('#name');
-        const age = document.querySelector('#age');
-        const comment = document.querySelector('#comment');
-        const clearForm = () => {
-            name.value = '';
-            age.value = '';
-            comment.value = '';
-        };
+        const   doc = document,
+                elem = doc.querySelector('#add'),
+                name = doc.querySelector('#name'),
+                age = doc.querySelector('#age'),
+                comment = doc.querySelector('#comment'),
+                clearForm = () => {
+                    name.value = '';
+                    age.value = '';
+                    comment.value = '';
+                };
 
         elem.addEventListener('click', () => {
             this.Add({Name: name.value, Age: age.value, Comment: comment.value})
             clearForm()
         });
-        
-        document.addEventListener('keydown', evt => {
+
+        doc.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
                 this.Add({Name: name.value, Age: age.value, Comment: comment.value});
                 clearForm()
             }
         });
      
-        this.initialRender();
+        this._initialRender();
     }
     
     get Slaves() {
@@ -36,35 +39,42 @@ class Project1 {
     
     set Slaves(data) {
         this.Users = data;
-        initialRender();
+        this._initialRender();
     }
     
     Add (item) {
         this.Users.push(item);
-        this.addLine(item.Name, item.Age, item.Comment);
+        this.Target.appendChild(this._addLine(item));
     };
 
     RemoveAll () {
         this.Users = [];
     }
     
-    initialRender () {
-        for (let i = 0; i < this.Users.length; i++) {
-            this.addLine(this.Users[i].Name, this.Users[i].Age, this.Users[i].Comment);
+    _initialRender () {
+        this.newHtml = ``;
+        for (let u of this.Users) {
+            console.log(this._addLine(u));
+            this.Target.appendChild(this._addLine(u));
         }
     }
     
-    addLine (col1, col2, col3) {
-        let newTr = document.createElement('tr');
-        let newTd = document.createElement('td');
-        newTd.innerText = col1;
-        newTr.appendChild(newTd);
-        let newTd1 = document.createElement('td');
-        newTd1.innerText = col2;
-        newTr.appendChild(newTd1);
-        let newTd2 = document.createElement('td');
-        newTd2.innerText = col3;
-        newTr.appendChild(newTd2);
-        this.Target.appendChild(newTr);
+    _addLine (user) {
+        let replaceStr = this.Template;
+        for (let i of Object.keys(user)) {
+            replaceStr = replaceStr.replace(new RegExp(`%${i}%`), user[i]);
+        }
+        const replaceNode = document.createElement('div');
+        replaceNode.innerHTML = replaceStr;
+        const replaceChild = replaceNode.firstChild;
+        const remove = document.createElement('input');
+        remove.innerHTML = `<input type="button" value="Remove" id="remove">`;
+        const removeButton = remove.firstChild;
+        replaceChild.insertAdjacentElement('beforeend', removeButton);
+        removeButton.addEventListener('click', user => {
+            this.Users.splice(this.Users.indexOf(user), 1);
+            this.Target.removeChild(replaceChild);
+        });
+        return replaceChild;
     };
 }
