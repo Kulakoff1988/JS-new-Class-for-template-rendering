@@ -52,9 +52,7 @@ class Project1 {
     }
     
     _initialRender () {
-        this.newHtml = ``;
         for (let u of this.Users) {
-            console.log(this._addLine(u));
             this.Target.appendChild(this._addLine(u));
         }
     }
