@@ -1,31 +1,23 @@
 class Project1 {
     constructor({   Target = void 0,
-                    Template = ``,
                     Users = [],
                 }) {
         this.Users = Users;
         this.Target = Target;
-        this.Template = Template;
-
-        const Name = '';
-        const Age = '';
-        const Comment = '';
         
-        const addLine = document.querySelector('#add');
-        /*
+        const elem = document.querySelector('#add');
         const name = document.querySelector('#name');
         const age = document.querySelector('#age');
         const comment = document.querySelector('#comment');
-        */
         const clearForm = () => {
             name.value = '';
             age.value = '';
             comment.value = '';
         };
 
-        addLine.addEventListener('click', () => {
+        elem.addEventListener('click', () => {
             this.Add({Name: name.value, Age: age.value, Comment: comment.value})
-            clearForm();
+            clearForm()
         });
         
         document.addEventListener('keydown', evt => {
@@ -34,9 +26,8 @@ class Project1 {
                 clearForm()
             }
         });
-        console.log(this.Users);
-        this.Target.innerHTML = this.Template;
-        //this._initialRender();
+     
+        this.initialRender();
     }
     
     get Slaves() {
@@ -45,61 +36,35 @@ class Project1 {
     
     set Slaves(data) {
         this.Users = data;
-<<<<<<< HEAD
-        this._initialRender();
-    }
-
-    set Element(data) {
-        this.Line = data;
-        console.log(this.Line);
-=======
-        //дописать код обновления таблицы;
->>>>>>> parent of fc62dca... update set method
+        initialRender();
     }
     
     Add (item) {
         this.Users.push(item);
-        console.log(this.Users);
-        //this._addLine(item);
+        this.addLine(item.Name, item.Age, item.Comment);
     };
 
     RemoveAll () {
         this.Users = [];
     }
-    /*
-    _initialRender () {
-        for (let u of this.Users) {
-            this._addLine(u);
+    
+    initialRender () {
+        for (let i = 0; i < this.Users.length; i++) {
+            this.addLine(this.Users[i].Name, this.Users[i].Age, this.Users[i].Comment);
         }
     }
     
-    _addLine (item) {
-        const nameLine = document.createElement(this.Line);
-        nameLine.innerText = item.Name;
-        this.Target.appendChild(nameLine);
-        const ageLine = document.createElement(this.Line);
-        ageLine.innerText = item.Age;
-        this.Target.appendChild(ageLine);
-        const commentLine = document.createElement(this.Line);
-        commentLine.innerText = item.Comment;
-        this.Target.appendChild(commentLine);
-        this._removeButton(item, nameLine, ageLine, commentLine);
+    addLine (col1, col2, col3) {
+        let newTr = document.createElement('tr');
+        let newTd = document.createElement('td');
+        newTd.innerText = col1;
+        newTr.appendChild(newTd);
+        let newTd1 = document.createElement('td');
+        newTd1.innerText = col2;
+        newTr.appendChild(newTd1);
+        let newTd2 = document.createElement('td');
+        newTd2.innerText = col3;
+        newTr.appendChild(newTd2);
+        this.Target.appendChild(newTr);
     };
-
-    _removeButton (item, nameLine, ageLine, commentLine) {
-        const remove = document.createElement('input');
-        remove.type = 'button';
-        remove.value = 'Delete';
-        remove.id = 'remove';
-        remove.class = 'remove';
-        this.Target.appendChild(remove);
-
-        remove.addEventListener('click', () => {
-            this.Users.splice(this.Users.indexOf(item), 1);
-            this.Target.removeChild(nameLine);
-            this.Target.removeChild(ageLine);
-            this.Target.removeChild(commentLine);
-            this.Target.removeChild(remove);
-        });
-    };*/
 }
