@@ -45,12 +45,16 @@ class Project1 {
     
     set Slaves(data) {
         this.Users = data;
+<<<<<<< HEAD
         this._initialRender();
     }
 
     set Element(data) {
         this.Line = data;
         console.log(this.Line);
+=======
+        //дописать код обновления таблицы;
+>>>>>>> parent of fc62dca... update set method
     }
     
     Add (item) {
