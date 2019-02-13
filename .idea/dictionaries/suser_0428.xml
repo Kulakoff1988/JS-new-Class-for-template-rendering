@@ -6,6 +6,7 @@
       <w>beforebegin</w>
       <w>beforeend</w>
       <w>keydown</w>
+      <w>textarea</w>
     </words>
   </dictionary>
 </component>

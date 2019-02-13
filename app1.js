@@ -4,7 +4,7 @@ const   ButtonAdd = document.querySelector('#add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
         commentForm = document.querySelector('#commentForm'),
-        TemplateSaveButton = '<input type="button" value="Remove" id="remove">',
+        TemplateRemoveButton = '<input type="button" value="Remove" id="remove">',
 
         clearForm =() => {
             nameForm.value = '';
@@ -20,16 +20,28 @@ const   ButtonAdd = document.querySelector('#add'),
             return template;
         },
 
-        create_DOM_element = (tagValue, tagName = 'div') => {
-            const DOM_name = document.createElement(tagName);
-            DOM_name.innerHTML = tagValue;
-            return DOM_name.firstChild;
+        create_DOM_element = (item, template) => {
+            console.log(template.Name);
+            const DOM_name = document.createElement(template.Name);
+            DOM_name.innerText = item.Name;
+            console.log(Object.getOwnPropertyNames(template.NameProperties))
+            for (let prop of Object.getOwnPropertyNames(template.NameProperties)) {
+                DOM_name.prop = template.NameProperties[prop];
+            }
+            console.log(DOM_name);
+            return DOM_name;
         };
 
 
 class Project1 {
     constructor({   Target = void 0,
-                    Template = ``,
+                    Template = {
+                        Name: {},
+                        Age: {},
+                        Comment: {},
+                        SaveButtonTemplate: {},
+                        RemoveButtonTemplate : {}
+                    },
                     Users = [],
                 }) {
         this.Users = Users;
@@ -83,18 +95,19 @@ class Project1 {
     }
     
     _addElementRendering (user) {
-        const replaceStr = this.Template;
-        const newLine = create_DOM_element(replacer({
-            Name: user.Name || 'Not specified',
-            Age: user.Age || 'Not specified',
-            Comment: user.Comment || 'Not specified'
-        }, replaceStr));
-        const removeButton = create_DOM_element(TemplateSaveButton);
+        const newLine = create_DOM_element(user, this.Template);
+        /*const removeButton =
+        const saveButton =
+        saveButton.innerText =
+        newLine.insertAdjacentElement('beforeend', saveButton);
         newLine.insertAdjacentElement('beforeend', removeButton);
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
             this.Target.removeChild(newLine);
         });
+        saveButton.addEventListener('click', user => {
+
+        });*/
         return newLine;
     };
 }
