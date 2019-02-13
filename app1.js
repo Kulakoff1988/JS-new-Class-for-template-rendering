@@ -1,15 +1,15 @@
 
 
 const   ButtonAdd = document.querySelector('#add'),
-        name = document.querySelector('#name'),
-        age = document.querySelector('#age'),
-        comment = document.querySelector('#comment'),
-        TemplateButtonSave = '<input type="button" value="Remove" id="remove">',
+        nameForm = document.querySelector('#nameForm'),
+        ageForm = document.querySelector('#ageForm'),
+        commentForm = document.querySelector('#commentForm'),
+        TemplateSaveButton = '<input type="button" value="Remove" id="remove">',
 
         clearForm =() => {
-            name.value = '';
-            age.value = '';
-            comment.value = '';
+            nameForm.value = '';
+            ageForm.value = '';
+            commentForm.value = '';
         },
 
 
@@ -37,15 +37,15 @@ class Project1 {
         this.Template = Template;
 
         ButtonAdd.addEventListener('click', () => {
-            this.Add({  Name: name.value,
-                        Age: age.value,
-                        Comment: comment.value});
+            this.Add({  Name: nameForm.value,
+                        Age: ageForm.value,
+                        Comment: commentForm.value});
             clearForm()
         });
 
         document.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
-                this.Add({Name: name.value, Age: age.value, Comment: comment.value});
+                this.Add({Name: nameForm.value, Age: ageForm.value, Comment: commentForm.value});
                 clearForm()
             }
         });
@@ -64,11 +64,7 @@ class Project1 {
     
     Add (item) {
         this.Users.push(item);
-        this.Target.appendChild(this._addElementRendering({
-            Name: item.Name || 'Not specified',
-            Age: item.Age || 'Not specified',
-            Comment: item.Comment || 'Not specified'
-        }));
+        this.Target.appendChild(this._addElementRendering(item));
     };
 
     RemoveAll () {
@@ -88,8 +84,12 @@ class Project1 {
     
     _addElementRendering (user) {
         const replaceStr = this.Template;
-        const newLine = create_DOM_element(replacer(user, replaceStr));
-        const removeButton = create_DOM_element(TemplateButtonSave);
+        const newLine = create_DOM_element(replacer({
+            Name: user.Name || 'Not specified',
+            Age: user.Age || 'Not specified',
+            Comment: user.Comment || 'Not specified'
+        }, replaceStr));
+        const removeButton = create_DOM_element(TemplateSaveButton);
         newLine.insertAdjacentElement('beforeend', removeButton);
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
