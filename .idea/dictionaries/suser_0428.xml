@@ -5,6 +5,7 @@
       <w>afterend</w>
       <w>beforebegin</w>
       <w>beforeend</w>
+      <w>keydown</w>
     </words>
   </dictionary>
 </component>
