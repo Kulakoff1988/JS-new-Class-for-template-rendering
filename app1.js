@@ -1,26 +1,29 @@
-const   elem = document.querySelector('#add'),                              // кнопка добавления элементов из заполненных форм
-        name = document.querySelector('#name'),                             // форма заполнения имени
-        age = document.querySelector('#age'),                               // форма заполнения возраста
-        comment = document.querySelector('#comment'),                       // форма заполнения комментария
-        htmlOfButton = '<input type="button" value="Remove" id="remove">',  // шаблон кнопки удаления в HTML представлении
 
-        clearForm =() => {                                                  //функция очистки форм
+
+const   ButtonAdd = document.querySelector('#add'),
+        name = document.querySelector('#name'),
+        age = document.querySelector('#age'),
+        comment = document.querySelector('#comment'),
+        TemplateButtonSave = '<input type="button" value="Remove" id="remove">',
+
+        clearForm =() => {
             name.value = '';
             age.value = '';
             comment.value = '';
         },
 
-        replacer = (item, template) => {                                           // функция создания создания строки с требуемыми словами из шаблона
-            for (let key of Object.getOwnPropertyNames(item)) {                     // принимает на вход объект с набором необходимых значений ключей
-                template = template.replace(new RegExp(`%${key}%`), item[key]);     // возвращает строку
+
+        replacer = (item, template) => {
+            for (let key of Object.getOwnPropertyNames(item)) {
+                template = template.replace(new RegExp(`%${key}%`), item[key]);
             }
             return template;
         },
 
-        createDOM = (tagValue, tagName = 'div') => {                    // функция создания DOM-элемента, принимает на вход строку с HTML-содержанием
-            const DOM_name = document.createElement(tagName);           // будущего элемента
-            DOM_name.innerHTML = tagValue;                              // второй параметр передавать не обязательно (он затирается во время выполнения функции)
-            return DOM_name.firstChild;                                 // возвращает DOM-элемент
+        create_DOM_element = (tagValue, tagName = 'div') => {
+            const DOM_name = document.createElement(tagName);
+            DOM_name.innerHTML = tagValue;
+            return DOM_name.firstChild;
         };
 
 
@@ -33,14 +36,14 @@ class Project1 {
         this.Target = Target;
         this.Template = Template;
 
-        elem.addEventListener('click', () => {                          // триггер по клику на кнопке "Add", вызов метода Add и функции очистки форм
+        ButtonAdd.addEventListener('click', () => {
             this.Add({  Name: name.value,
                         Age: age.value,
                         Comment: comment.value});
             clearForm()
         });
 
-        document.addEventListener('keydown', evt => {                   // триггер по нажатию Enter, вызов метода Add и функции очистки форм
+        document.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
                 this.Add({Name: name.value, Age: age.value, Comment: comment.value});
                 clearForm()
@@ -49,44 +52,44 @@ class Project1 {
 
     }
     
-    get Slaves() {                                                      // получение списка пользователей в виде массива объектов
+    get Slaves() {
      return this.Users;
     }
     
-    set Slaves(data) {                                                  // присваивание данных списку пользователей
+    set Slaves(data) {
         this.Users = data;
-        this._removeCurrentRendering();                                 // вызов очистки текущего рендеринга списка пользователей
-        this._render();                                                 // вызов функции рендеринга
+        this._removeCurrentRendering();
+        this._render();
     }
     
-    Add (item) {                                                        // добавление нового пользователя, принимает на вход объект
-        this.Users.push(item);                                          // добавление нового пользователя в общий список пользователей
-        this.Target.appendChild(this._addElementRendering({             // вызов метода отображения нового элемента
+    Add (item) {
+        this.Users.push(item);
+        this.Target.appendChild(this._addElementRendering({
             Name: item.Name || 'Not specified',
             Age: item.Age || 'Not specified',
             Comment: item.Comment || 'Not specified'
         }));
     };
 
-    RemoveAll () {                                                      // очистка списка пользователей, также очищает текущий рендеринг
+    RemoveAll () {
         this.Users.length = 0;
         this._removeCurrentRendering();
     }
 
-    _render () {                                                        // рендеринг страницы на основании полученных данных из списка пользователей
-        for (let u of this.Users) {                                     // и шаблона
+    _render () {
+        for (let u of this.Users) {
             this.Target.appendChild(this._addElementRendering(u));
         }
     }
 
-    _removeCurrentRendering (parent = this.Target) {                    // очистка текущего рендеринга списка пользователей
+    _removeCurrentRendering (parent = this.Target) {
         while (parent.firstChild) parent.removeChild(parent.lastChild);
     }
     
-    _addElementRendering (user) {                                       // добавление рендеринга элемента, принимает на вход объект с данными пользователя
+    _addElementRendering (user) {
         const replaceStr = this.Template;
-        const newLine = createDOM(replacer(user, replaceStr));          // создаём DOM-элемент из данных пользователя по шаблону
-        const removeButton = createDOM(htmlOfButton);                   // создаём кнопку удаления элемента
+        const newLine = create_DOM_element(replacer(user, replaceStr));
+        const removeButton = create_DOM_element(TemplateButtonSave);
         newLine.insertAdjacentElement('beforeend', removeButton);
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
