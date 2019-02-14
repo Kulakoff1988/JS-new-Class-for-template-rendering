@@ -4,7 +4,6 @@ const   ButtonAdd = document.querySelector('#add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
         commentForm = document.querySelector('#commentForm'),
-        TemplateSaveButton = '<input type="button" value="Remove" id="remove">',
 
         clearForm =() => {
             nameForm.value = '';
@@ -64,7 +63,7 @@ class Project1 {
     
     Add (item) {
         this.Users.push(item);
-        this.Target.appendChild(this._addElementRendering(item));
+        this._addElementRendering(item);
     };
 
     RemoveAll () {
@@ -74,7 +73,7 @@ class Project1 {
 
     _render () {
         for (let u of this.Users) {
-            this.Target.appendChild(this._addElementRendering(u));
+            this._addElementRendering(u);
         }
     }
 
@@ -89,12 +88,18 @@ class Project1 {
             Age: user.Age || 'Not specified',
             Comment: user.Comment || 'Not specified'
         }, replaceStr));
-        const removeButton = create_DOM_element(TemplateSaveButton);
-        newLine.insertAdjacentElement('beforeend', removeButton);
+        const saveButton = newLine.querySelector('.btn-save');
+        const removeButton = newLine.querySelector('.btn-remove');
+        const ageArea = newLine.querySelector('.date-of-birth');
+        const commentArea = newLine.querySelector('.textarea');
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
             this.Target.removeChild(newLine);
         });
-        return newLine;
+        saveButton.addEventListener('click', () => {
+            user.Age = ageArea.value || user.Age;
+            user.Comment = commentArea.value || user.Comment;
+        });
+        this.Target.appendChild(newLine);
     };
 }
