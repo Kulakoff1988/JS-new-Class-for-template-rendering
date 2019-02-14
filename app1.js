@@ -1,15 +1,15 @@
 
 
 const   ButtonAdd = document.querySelector('#add'),
-        nameForm = document.querySelector('#nameForm'),
-        ageForm = document.querySelector('#ageForm'),
-        commentForm = document.querySelector('#commentForm'),
-        TemplateRemoveButton = '<input type="button" value="Remove" id="remove">',
+        name = document.querySelector('#name'),
+        age = document.querySelector('#age'),
+        comment = document.querySelector('#comment'),
+        TemplateButtonSave = '<input type="button" value="Remove" id="remove">',
 
         clearForm =() => {
-            nameForm.value = '';
-            ageForm.value = '';
-            commentForm.value = '';
+            name.value = '';
+            age.value = '';
+            comment.value = '';
         },
 
 
@@ -20,64 +20,61 @@ const   ButtonAdd = document.querySelector('#add'),
             return template;
         },
 
-        create_DOM_element = (item, template) => {
-            const filtered = Object.keys(template).filter(el => typeof template[el] !== 'object');
-            console.log(filtered);
-            const DOM_name = document.createElement(template.Tag);
-            DOM_name.innerText = item.Name;
-            /*for (let prop of Object.getOwnPropertyNames(template.NameProperties)) {
-                DOM_name.prop = template.NameProperties[prop];
-            }*/
-            return DOM_name;
+    /**
+     *
+     * @param tagValue
+     * @param tagName
+     * @returns {Element}
+     */
+        create_DOM_element = (tagValue, tagName = 'div') => {
+            const DOM_name = document.createElement(tagName);
+            DOM_name.innerHTML = tagValue;
+            return DOM_name.firstChild;
         };
 
 
 class Project1 {
     constructor({   Target = void 0,
-                    TemplateName = {},
-                    TemplateAge ={},
-                    TemplateComment ={},
-                    TemplateSaveButton = {},
-                    TemplateRemoveButton = {},
+                    Template = ``,
                     Users = [],
                 }) {
         this.Users = Users;
         this.Target = Target;
-        this.TemplateName = TemplateName;
-        this.TemplateAge = TemplateAge;
-        this.TemplateComment = TemplateComment;
-        this.TemplateSaveButton = TemplateSaveButton;
-        this.TemplateRemoveButton = TemplateRemoveButton;
+        this.Template = Template;
 
         ButtonAdd.addEventListener('click', () => {
-            this.Add({  Name: nameForm.value,
-                        Age: ageForm.value,
-                        Comment: commentForm.value});
+            this.Add({  Name: name.value,
+                        Age: age.value,
+                        Comment: comment.value});
             clearForm()
         });
 
         document.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
-                this.Add({Name: nameForm.value, Age: ageForm.value, Comment: commentForm.value});
+                this.Add({Name: name.value, Age: age.value, Comment: comment.value});
                 clearForm()
             }
         });
 
     }
-    
+
     get Slaves() {
      return this.Users;
     }
-    
+
     set Slaves(data) {
         this.Users = data;
         this._removeCurrentRendering();
         this._render();
     }
-    
+
     Add (item) {
         this.Users.push(item);
-        this.Target.appendChild(this._addElementRendering(item));
+        this.Target.appendChild(this._addElementRendering({
+            Name: item.Name || 'Not specified',
+            Age: item.Age || 'Not specified',
+            Comment: item.Comment || 'Not specified'
+        }));
     };
 
     RemoveAll () {
@@ -87,28 +84,25 @@ class Project1 {
 
     _render () {
         for (let u of this.Users) {
-            this._addElementRendering(u);
+            this.Target.appendChild(this._addElementRendering(u));
         }
     }
 
     _removeCurrentRendering (parent = this.Target) {
         while (parent.firstChild) parent.removeChild(parent.lastChild);
     }
-    
+
     _addElementRendering (user) {
-        this.Target.appendChild(create_DOM_element(user, this.TemplateName));
-        this.Target.appendChild(create_DOM_element(user, this.TemplateAge));
-        this.Target.appendChild(create_DOM_element(user, this.TemplateComment));
-        this.Target.appendChild(create_DOM_element(user, this.TemplateSaveButton));
-        this.Target.appendChild(create_DOM_element(user, this.TemplateRemoveButton));
-        /*
+        const replaceStr = this.Template;
+        const newLine = create_DOM_element(replacer(user, replaceStr));
+        const ButtonSave = newLine.querySelector('.btn-save');
+
+        const removeButton = create_DOM_element(TemplateButtonSave);
+        newLine.insertAdjacentElement('beforeend', removeButton);
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
             this.Target.removeChild(newLine);
         });
-        saveButton.addEventListener('click', user => {
-
-        });*/
-        return this.Target;
+        return newLine;
     };
 }
