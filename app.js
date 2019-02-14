@@ -12,8 +12,9 @@ const newData = new Project1 ({
                   <button class="btn-save">Save</button>
                   <input type="button" class="btn-remove" value="Remove">
                 </div>`,
+
     Users: []
 });
 
-
 newData.Slaves = [{Name: 'Niger', Age: 25, Comment: 'best courier'}, {Name: 'Gustav', Age: 20, Comment: 'best HR'}];
+

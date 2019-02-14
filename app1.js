@@ -1,5 +1,4 @@
 
-
 const   ButtonAdd = document.querySelector('#add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
@@ -10,7 +9,6 @@ const   ButtonAdd = document.querySelector('#add'),
             ageForm.value = '';
             commentForm.value = '';
         },
-
 
         replacer = (item, template) => {
             for (let key of Object.getOwnPropertyNames(item)) {
@@ -25,7 +23,6 @@ const   ButtonAdd = document.querySelector('#add'),
             return DOM_name.firstChild;
         };
 
-
 class Project1 {
     constructor({   Target = void 0,
                     Template = ``,
@@ -36,35 +33,34 @@ class Project1 {
         this.Template = Template;
 
         ButtonAdd.addEventListener('click', () => {
-            this.Add({  Name: nameForm.value,
-                        Age: ageForm.value,
-                        Comment: commentForm.value});
+            this.Add({  Name: name.value,
+                        Age: age.value,
+                        Comment: comment.value});
             clearForm()
         });
 
         document.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
-                this.Add({Name: nameForm.value, Age: ageForm.value, Comment: commentForm.value});
+                this.Add({Name: name.value, Age: age.value, Comment: comment.value});
                 clearForm()
             }
         });
 
     }
-    
+
     get Slaves() {
      return this.Users;
     }
-    
+
     set Slaves(data) {
         this.Users = data;
         this._removeCurrentRendering();
         this._render();
     }
-    
+
     Add (item) {
         this.Users.push(item);
-        this._addElementRendering(item);
-    };
+        this.Target.appendChild(this._addElementRendering(item));
 
     RemoveAll () {
         this.Users.length = 0;
@@ -80,7 +76,7 @@ class Project1 {
     _removeCurrentRendering (parent = this.Target) {
         while (parent.firstChild) parent.removeChild(parent.lastChild);
     }
-    
+
     _addElementRendering (user) {
         const replaceStr = this.Template;
         const newLine = create_DOM_element(replacer({
