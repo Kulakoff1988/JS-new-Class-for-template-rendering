@@ -11,9 +11,17 @@ const   ButtonAdd = document.querySelector('#add'),
         },
 
         replacer = (item, template) => {
-            for (let key of Object.getOwnPropertyNames(item)) {
-                template = template.replace(new RegExp(`%${key}%`), item[key]);
+            const words = template.match(/\b\w+\b(?=%)/g);
+            for (word of words) {
+                if (!item.hasOwnProperty(word)) item[word] = ``;
             }
+            for (let key of Object.getOwnPropertyNames(item)) {
+                template = template.replace(/\b\w+\b(?=%)/g, item[key]);
+            }
+            words.map(word => {
+                template.replace(new RegExp(`${word}%`), item[word]);
+            });
+            console.log(template);
             return template;
         },
 
@@ -24,24 +32,24 @@ const   ButtonAdd = document.querySelector('#add'),
         };
 
 class Project1 {
-    constructor({   Target = void 0,
+    constructor ({  Target = void 0,
                     Template = ``,
                     Users = [],
                 }) {
-        this.Users = Users;
+        this.Users = Users;``
         this.Target = Target;
         this.Template = Template;
 
         ButtonAdd.addEventListener('click', () => {
-            this.Add({  Name: name.value,
-                        Age: age.value,
-                        Comment: comment.value});
-            clearForm()
+            this.Add({  Name: nameForm.value,
+                        Age: +ageForm.value,
+                        Comment: commentForm.value});
+            clearForm();
         });
 
         document.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
-                this.Add({Name: name.value, Age: age.value, Comment: comment.value});
+                this.Add({Name: nameForm.value, Age: ageForm.value, Comment: commentForm.value});
                 clearForm()
             }
         });
@@ -60,7 +68,8 @@ class Project1 {
 
     Add (item) {
         this.Users.push(item);
-        this.Target.appendChild(this._addElementRendering(item));
+        this._addElementRendering(item);
+    }
 
     RemoveAll () {
         this.Users.length = 0;
@@ -79,11 +88,7 @@ class Project1 {
 
     _addElementRendering (user) {
         const replaceStr = this.Template;
-        const newLine = create_DOM_element(replacer({
-            Name: user.Name || 'Not specified',
-            Age: user.Age || 'Not specified',
-            Comment: user.Comment || 'Not specified'
-        }, replaceStr));
+        const newLine = create_DOM_element(replacer(user, replaceStr));
         const saveButton = newLine.querySelector('.btn-save');
         const removeButton = newLine.querySelector('.btn-remove');
         const ageArea = newLine.querySelector('.date-of-birth');
