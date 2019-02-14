@@ -18,6 +18,7 @@ const   elem = document.querySelector('#add'),                              // �
         },
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      *
      * @param tagValue
@@ -29,10 +30,15 @@ const   elem = document.querySelector('#add'),                              // �
             DOM_name.innerHTML = tagValue;
             return DOM_name.firstChild;
 =======
+=======
+>>>>>>> parent of 2822e34... Delete wrong comments
         createDOM = (tagValue, tagName = 'div') => {                    // функция создания DOM-элемента, принимает на вход строку с HTML-содержанием
             const DOM_name = document.createElement(tagName);           // будущего элемента
             DOM_name.innerHTML = tagValue;                              // второй параметр передавать не обязательно (он затирается во время выполнения функции)
             return DOM_name.firstChild;                                 // возвращает DOM-элемент
+<<<<<<< HEAD
+>>>>>>> parent of 2822e34... Delete wrong comments
+=======
 >>>>>>> parent of 2822e34... Delete wrong comments
         };
 
@@ -61,6 +67,7 @@ class Project1 {
         });
 
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     get Slaves() {
@@ -91,6 +98,22 @@ class Project1 {
         this.Users.push(item);                                          // добавление нового пользователя в общий список пользователей
         this.Target.appendChild(this._addElementRendering({             // вызов метода отображения нового элемента
 >>>>>>> parent of 2822e34... Delete wrong comments
+=======
+    
+    get Slaves() {                                                      // получение списка пользователей в виде массива объектов
+     return this.Users;
+    }
+    
+    set Slaves(data) {                                                  // присваивание данных списку пользователей
+        this.Users = data;
+        this._removeCurrentRendering();                                 // вызов очистки текущего рендеринга списка пользователей
+        this._render();                                                 // вызов функции рендеринга
+    }
+    
+    Add (item) {                                                        // добавление нового пользователя, принимает на вход объект
+        this.Users.push(item);                                          // добавление нового пользователя в общий список пользователей
+        this.Target.appendChild(this._addElementRendering({             // вызов метода отображения нового элемента
+>>>>>>> parent of 2822e34... Delete wrong comments
             Name: item.Name || 'Not specified',
             Age: item.Age || 'Not specified',
             Comment: item.Comment || 'Not specified'
@@ -112,6 +135,7 @@ class Project1 {
         while (parent.firstChild) parent.removeChild(parent.lastChild);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     _addElementRendering (user) {
         const replaceStr = this.Template;
@@ -119,6 +143,13 @@ class Project1 {
         const ButtonSave = newLine.querySelector('.btn-save');
 
         const removeButton = create_DOM_element(TemplateButtonSave);
+=======
+    
+    _addElementRendering (user) {                                       // добавление рендеринга элемента, принимает на вход объект с данными пользователя
+        const replaceStr = this.Template;
+        const newLine = createDOM(replacer(user, replaceStr));          // создаём DOM-элемент из данных пользователя по шаблону
+        const removeButton = createDOM(htmlOfButton);                   // создаём кнопку удаления элемента
+>>>>>>> parent of 2822e34... Delete wrong comments
 =======
     
     _addElementRendering (user) {                                       // добавление рендеринга элемента, принимает на вход объект с данными пользователя
