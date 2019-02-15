@@ -3,7 +3,7 @@ const   ButtonAdd = document.querySelector('#add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
         commentForm = document.querySelector('#commentForm'),
-        regExp = new RegExp('\\b\\w+\\b(?=%)', 'g'),
+        RegExpForDefiner = new RegExp('\\b\\w+\\b(?=%)', 'g'),
 
         clearForm =() => {
             nameForm.value = '';
@@ -12,7 +12,7 @@ const   ButtonAdd = document.querySelector('#add'),
         },
 
         userPropertyDefiner = (user, propertyTemplate) => {
-            const words = propertyTemplate.match(regExp);
+            const words = propertyTemplate.match(RegExpForDefiner);
             for (let word of words) {
                 if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
             }
@@ -21,7 +21,7 @@ const   ButtonAdd = document.querySelector('#add'),
 
         replacer = (item, template) => {
             for (let key of Object.getOwnPropertyNames(item)) {
-                template = template.replace(new RegExp(`${key}%`), item[key]);
+                template = template.replace(new RegExp(`%${key}%`), item[key]);
             }
             return template;
         },
