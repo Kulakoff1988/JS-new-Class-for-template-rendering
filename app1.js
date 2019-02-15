@@ -3,6 +3,7 @@ const   ButtonAdd = document.querySelector('#add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
         commentForm = document.querySelector('#commentForm'),
+        regExp = new RegExp('\\b\\w+\\b(?=%)', 'g'),
 
         clearForm =() => {
             nameForm.value = '';
@@ -11,9 +12,9 @@ const   ButtonAdd = document.querySelector('#add'),
         },
 
         userPropertyDefiner = (user, propertyTemplate) => {
-            const words = propertyTemplate.match(/\b\w+\b(?=%)/g);
+            const words = propertyTemplate.match(regExp);
             for (let word of words) {
-                if (!user.hasOwnProperty(word) || user[word] === ``) user[word] = `Not specified`;
+                if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
             }
             return user;
         },
@@ -108,8 +109,50 @@ class Project1 {
             user.Comment = commentArea.value || user.Comment;
         });
         for (let element of newDOM.getElementsByTagName('*')) {
-            if (element.outerHTML.search(/Not specified/) != -1) element.classList.add('hidden');
-        }   
+            if (element.outerHTML.indexOf('Not specified') > -1) element.classList.add('hidden');
+        }
         this.Target.appendChild(newDOM);
     };
 }
+
+// function test1(count=10000) {
+//     let t = window.performance.now();
+//     let s = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaahslhslghlsdhglsdhghsdlghlsdhglshghsddhglsdhgsdlghsdlghsldhgldshghlshdgklhlkghlsdhglhsdghshgsdlghlksdhglsdhb2bsjpsdfsjdjfsdpjfpsdfj';
+//     let CountOk = 0;
+//     for(let i = 0; i < count; i++){
+//         if (s.includes('b2b', 100)){
+//             CountOk++;
+//         }
+//     }
+//     console.log(`[includes]`, (window.performance.now()-t).toFixed(3), CountOk);
+//     t = window.performance.now();
+//     for(let i = 0; i < count; i++){
+//         if (s.search(/b2b/) > 0){
+//             CountOk++;
+//         }
+//     }
+//     console.log(`[REGEX]`, (window.performance.now()-t).toFixed(3), CountOk);
+//     t = window.performance.now();
+//     for(let i = 0; i < count; i++){
+//         if (s.indexOf('b2b') > -1){
+//             CountOk++;
+//         }
+//     }
+//     console.log(`[indexOf]`, (window.performance.now()-t).toFixed(3), CountOk);
+//     t = window.performance.now();
+//     for(let i = 0; i < count; i++){
+//         if (s.lastIndexOf('b2b') > -1){
+//             CountOk++;
+//         }
+//     }
+//     console.log(`[lastIndexOf]`, (window.performance.now()-t).toFixed(3), CountOk);
+//     t = window.performance.now();
+//
+//     for(let i = 0; i < count; i++){
+//         if (s.split('b2b') > 0){
+//             CountOk++;
+//         }
+//     }
+//     console.log(`[split]`, (window.performance.now()-t).toFixed(3), CountOk);
+//     t = window.performance.now();
+//}
