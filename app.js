@@ -8,7 +8,7 @@ const newData = new Project1 ({
                   <div class="caption">Name%</div>
                   <input class="date-of-birth" type="text" value="Age%">
                   <textarea class="textarea">Comment%</textarea>
-                  <textarea>Test%</textarea>
+                  <textarea class="test1">Test%</textarea>
                   <button class="btn-save">Save</button>
                   <input type="button" class="btn-remove" value="Remove">
                 </div>`,

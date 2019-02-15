@@ -23,3 +23,6 @@ input {
     font-weight: bold;
     border: 2px double;
 }
+.hidden {
+    display: none;
+}

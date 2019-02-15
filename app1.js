@@ -13,7 +13,7 @@ const   ButtonAdd = document.querySelector('#add'),
         userPropertyDefiner = (user, propertyTemplate) => {
             const words = propertyTemplate.match(/\b\w+\b(?=%)/g);
             for (let word of words) {
-                if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
+                if (!user.hasOwnProperty(word) || user[word] === ``) user[word] = `Not specified`;
             }
             return user;
         },
@@ -108,8 +108,8 @@ class Project1 {
             user.Comment = commentArea.value || user.Comment;
         });
         for (let element of newDOM.getElementsByTagName('*')) {
-            if (element.outerHTML.search(/Not specified/) !== -1) newDOM.removeChild(element);
-        }
+            if (element.outerHTML.search(/Not specified/) != -1) element.classList.add('hidden');
+        }   
         this.Target.appendChild(newDOM);
     };
 }
