@@ -10,18 +10,18 @@ const   ButtonAdd = document.querySelector('#add'),
             commentForm.value = '';
         },
 
+        userPropertyDefiner = (user, propertyTemplate) => {
+            const words = propertyTemplate.match(/\b\w+\b(?=%)/g);
+            for (let word of words) {
+                if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
+            }
+            return user;
+        },
+
         replacer = (item, template) => {
-            const words = template.match(/\b\w+\b(?=%)/g);
-            for (word of words) {
-                if (!item.hasOwnProperty(word)) item[word] = ``;
-            }
             for (let key of Object.getOwnPropertyNames(item)) {
-                template = template.replace(/\b\w+\b(?=%)/g, item[key]);
+                template = template.replace(new RegExp(`${key}%`), item[key]);
             }
-            words.map(word => {
-                template.replace(new RegExp(`${word}%`), item[word]);
-            });
-            console.log(template);
             return template;
         },
 
@@ -29,6 +29,10 @@ const   ButtonAdd = document.querySelector('#add'),
             const DOM_name = document.createElement(tagName);
             DOM_name.innerHTML = tagValue;
             return DOM_name.firstChild;
+        },
+
+        makeCurrentRender = (user, template) => {
+
         };
 
 class Project1 {
@@ -36,7 +40,7 @@ class Project1 {
                     Template = ``,
                     Users = [],
                 }) {
-        this.Users = Users;``
+        this.Users = Users;
         this.Target = Target;
         this.Template = Template;
 
@@ -61,13 +65,15 @@ class Project1 {
     }
 
     set Slaves(data) {
-        this.Users = data;
+        this.Users = data.map(user => {
+             return userPropertyDefiner(user, this.Template);
+        });
         this._removeCurrentRendering();
         this._render();
     }
 
     Add (item) {
-        this.Users.push(item);
+        this.Users.push(userPropertyDefiner(item, this.Template));
         this._addElementRendering(item);
     }
 
@@ -87,20 +93,23 @@ class Project1 {
     }
 
     _addElementRendering (user) {
-        const replaceStr = this.Template;
-        const newLine = create_DOM_element(replacer(user, replaceStr));
-        const saveButton = newLine.querySelector('.btn-save');
-        const removeButton = newLine.querySelector('.btn-remove');
-        const ageArea = newLine.querySelector('.date-of-birth');
-        const commentArea = newLine.querySelector('.textarea');
+        const replaceStr = this.Template,
+            newDOM = create_DOM_element(replacer(user, replaceStr)),
+            saveButton = newDOM.querySelector('.btn-save'),
+            ageArea = newDOM.querySelector('.date-of-birth'),
+            commentArea = newDOM.querySelector('.textarea'),
+            removeButton = newDOM.querySelector('.btn-remove');
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
-            this.Target.removeChild(newLine);
+            this.Target.removeChild(newDOM);
         });
         saveButton.addEventListener('click', () => {
-            user.Age = ageArea.value || user.Age;
+            user.Age = +ageArea.value < 0 ? user.Age : +ageArea.value;
             user.Comment = commentArea.value || user.Comment;
         });
-        this.Target.appendChild(newLine);
+        for (let element of newDOM.getElementsByTagName('*')) {
+            if (element.outerHTML.search(/Not specified/) !== -1) newDOM.removeChild(element);
+        }
+        this.Target.appendChild(newDOM);
     };
 }
