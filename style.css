@@ -5,6 +5,13 @@ table {
     border-spacing: 6px; /* Расстояние между ячейками */
     text-align: center;
 }
+
+body {
+    width: 1400px;
+    font-family: Verdana;
+    height: 100%;
+}
+
 td {
     padding: 3px; /* Поля вокруг содержимого таблицы */
     border: 1px solid black; /* Параметры рамки */
