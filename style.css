@@ -1,35 +1,61 @@
-table {
-    border: 1px solid black; /* Рамка вокруг таблицы */
-    border-collapse: collapse; /* Способ отображения границы */
-    width: 55%; /* Ширина таблицы */
-    border-spacing: 6px; /* Расстояние между ячейками */
+body {
+    width: 98%;
+    height: 100%;
+    font-family: Verdana;
+    margin-right: auto;
+    margin-right: auto;
+    background-color: #d9ddd5;
+}
+
+.headingID {
+    float: left;
+    width: 10%;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    min-height: 50px;
+    border: 2px solid black;
+    background-color: #f7fff3;
     text-align: center;
 }
 
-body {
-    width: 1400px;
-    font-family: Verdana;
-    height: 100%;
+.masterList {
+    min-height: 50px;
+    width: 80%;
+    float: right;
+    border: 2px solid black;
+    margin-top: 20px;
+    margin-right: 100px;
 }
 
-td {
-    padding: 3px; /* Поля вокруг содержимого таблицы */
-    border: 1px solid black; /* Параметры рамки */
+.documentData {
+    float: right;
+    width: 87%;
+    border: 1px solid black;
+    background-color: #f7fff3;
+    margin: 5px auto;
+    margin-right: 20px;
 }
 
-.remove {
-    border: none;
-    width: 20px;
+.id,
+.name,
+.description {
+    margin: 10px;
+    font-family: COURIER;
 }
 
-input {
-    width: 100px;
+.newDocList {
+    float: left;
+    width: 100%;
+    background-color: #f7fff3;
+    margin: 10px;
+    padding-bottom: 20px;
+    border: 1px solid black;
 }
 
-.title {
-    font-weight: bold;
-    border: 2px double;
-}
-.hidden {
-    display: none;
+span {
+    width: 10%;
+    display: block;
+    float: left;
+    min-height: 50px;
 }

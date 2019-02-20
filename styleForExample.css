@@ -21,6 +21,29 @@
     min-height: 800px;
     background-color: burlywood;
 }
+
+.sidebarButton {
+    display: block;
+    width: 70px;
+    min-height: 50px;
+    background-color: turquoise;
+    margin: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: -2px -2px 15px black;
+    text-align: center;
+}
+
+
+.choose label:hover,
+.choose input:checked + label {
+    background-color: green;
+}
+
+#choice1:checked ~ .content > div:nth-of-type(1) {
+    display: block;
+}
+
 .content {
     float: left;
     width: 90%;
@@ -57,17 +80,13 @@ input[type=radio] {
 .button {
     float: left;
     width: 90%;
-    height: 500px;
+    height: 470px;
     margin: 5px auto;
     margin-top: 0;
     margin-left: 1px;
     background-color: black;
     display: none;
     border-radius: 0 10px 10px 10px;
-}
-
-input:checked ~ .button {
-    background-color: blue;
 }
 
 #tab1:checked ~ .tab-content > div:nth-of-type(1),
@@ -78,14 +97,76 @@ input:checked ~ .button {
 }
 
 .forms {
+    display: table;
     width: 98%;
     padding: 10px;
 }
 
-input[type=text] {
+input[type=text],
+input[type=number]{
     width: 80%;
     margin: 10px;
 }
 .input {
     color: white;
 }
+button {
+    display: flex;
+    flex-direction: column-reverse;
+    float: right;
+}
+
+.title {
+    display: block;
+    float: left;
+    color: white;
+    margin: 0px 70px 20px;
+    padding: 10px;
+    border-bottom: 1px solid darkorange;
+}
+
+.men {
+    display: block;
+    float: left;
+    width: 200px;
+    color: darkorange;
+    clear: right;
+}
+
+.rows {
+    display: table-row;
+}
+
+.user-card {
+    display: table-row;
+}
+
+.template {
+    display: table-cell;
+    width: 200px;
+    color: green;
+    float: left;
+    margin: 10px;
+}
+
+#btn-remove,
+#btn-save,
+#btn-add {
+    width: 70px;
+    background-color: burlywood;
+    border-radius: 5px;
+    box-shadow: 2px -2px 5px white;
+}
+
+#btn-add {
+    color: blue;
+}
+
+#btn-save {
+    color: green;
+}
+
+#btn-remove {
+    color: red;
+}
+

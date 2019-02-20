@@ -1,8 +1,9 @@
 
-const   ButtonAdd = document.querySelector('#add'),
+const   ButtonAdd = document.querySelector('#btn-add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
         commentForm = document.querySelector('#commentForm'),
+        refreshButton = document.querySelector('button');
         RegExpForDefiner = new RegExp('\\b\\w+\\b(?=%)', 'g'),
 
         clearForm =() => {
@@ -59,6 +60,10 @@ class Project1 {
             }
         });
 
+        refreshButton.addEventListener('click', () => {
+            this._removeCurrentRendering()
+        });
+
     }
 
     get Slaves() {
@@ -96,16 +101,15 @@ class Project1 {
     _addElementRendering (user) {
         const replaceStr = this.Template,
             newDOM = create_DOM_element(replacer(user, replaceStr)),
-            saveButton = newDOM.querySelector('.btn-save'),
-            ageArea = newDOM.querySelector('.date-of-birth'),
-            commentArea = newDOM.querySelector('.textarea'),
-            removeButton = newDOM.querySelector('.btn-remove');
+            saveButton = newDOM.querySelector('#btn-save'),
+            ageArea = newDOM.querySelector('#date-of-birth'),
+            commentArea = newDOM.querySelector('#textarea'),
+            removeButton = newDOM.querySelector('#btn-remove');
         removeButton.addEventListener('click', user => {
             this.Users.splice(this.Users.indexOf(user), 1);
             this.Target.removeChild(newDOM);
         });
         saveButton.addEventListener('click', () => {
-            user.Age = +ageArea.value < 0 ? user.Age : +ageArea.value;
             user.Comment = commentArea.value || user.Comment;
         });
         for (let element of newDOM.getElementsByTagName('*')) {
