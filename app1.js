@@ -3,14 +3,15 @@ const   ButtonAdd = document.querySelector('#btn-add'),
         nameForm = document.querySelector('#nameForm'),
         ageForm = document.querySelector('#ageForm'),
         commentForm = document.querySelector('#commentForm'),
-        refreshButton = document.querySelector('button');
+        refreshButton = document.querySelector('button'),
         RegExpForDefiner = new RegExp('\\b\\w+\\b(?=%)', 'g'),
+        choiceButton = document.querySelector('#choice-1-1'),
 
         clearForm =() => {
             nameForm.value = '';
             ageForm.value = '';
             commentForm.value = '';
-        },
+        };
 
         userPropertyDefiner = (user, propertyTemplate) => {
             const words = propertyTemplate.match(RegExpForDefiner);
@@ -18,23 +19,19 @@ const   ButtonAdd = document.querySelector('#btn-add'),
                 if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
             }
             return user;
-        },
+        };
 
         replacer = (item, template) => {
             for (let key of Object.getOwnPropertyNames(item)) {
                 template = template.replace(new RegExp(`%${key}%`), item[key]);
             }
             return template;
-        },
+        };
 
         create_DOM_element = (tagValue, tagName = 'div') => {
             const DOM_name = document.createElement(tagName);
             DOM_name.innerHTML = tagValue;
             return DOM_name.firstChild;
-        },
-
-        makeCurrentRender = (user, template) => {
-
         };
 
 class Project1 {

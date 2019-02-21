@@ -77,7 +77,6 @@ const newRender = (list, dict) => {
         newDoc.classList.add('newDocList');
         newDoc.appendChild(newHeading(head));
         for (let doc of list.filter(item => item.HeadingID === +head)) {
-            console.log(+newMasterDocId(doc, doc.MasterDocumentID).firstChild.id === doc.MasterDocumentID);
             newDoc.appendChild(newMasterDocId(doc, doc.MasterDocumentID))
         }
         Target.appendChild(newDoc);

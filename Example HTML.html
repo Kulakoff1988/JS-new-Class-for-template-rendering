@@ -6,74 +6,36 @@
     <link rel="stylesheet" href="styleForExample.css">
 </head>
 <body>
-<div class="wrapper">
-    <div class="header">Header</div>
-    <div class="container">
-        <div class="choose">
-            <div>Choice</div>
-            <label class="sidebarButton" for="choice1"><input type="radio" name="choice" id="choice1" checked>One</label>
-            <label class="sidebarButton" for="choice2"><input type="radio" name="choice" id="choice2">Two</label>
-        </div>
-        <div class="content">
-            <div class="tabButtons"></div>
-            <div class="tabs-controls">
-                <input type="radio" name="choice" id="tab1"><label class="tab" for="tab1">Men</label>
-                <input type="radio" name="choice" id="tab2" checked><label class="tab" for="tab2">Women</label>
-                <input type="radio" name="choice" id="tab3"><label class="tab" for="tab3">Undecided</label>
-                <div class="tab-content">
-                    <div class="button">
-                        <div class="forms">
-                            <div class="rows">
-                                <div class="title">Name</div>
-                                <div class="title">Age</div>
-                                <div class="title">Comment</div>
-                            </div>
-                            <div id="table"></div>
-                            <form action="" name="test">
-                                <label class="men">
-                                    <b>Enter name:</b> <input type="text" placeholder="User name" id="nameForm" size="8">
-                                </label>
-                                <label class="men">
-                                    <b>Enter age:</b> <input type="number" placeholder="User age" id="ageForm" min="18"></label>
-                                <label class="men">
-                                    <b>Enter comment:</b> <input type="text" placeholder="User comment" id="commentForm" size="10">
-                                </label>
-                                <input type="button" id="btn-add" value="Add">
-                            </form>
-                        </div>
-                    </div>
-                    <div class="button">
-                        <div class="forms">
-                            <form type="text">
-                                <input type="text"><label class="input">WomenData1</label>
-                                <input type="text"><label class="input">WomenData2</label>
-                                <input type="text"><label class="input">WomenData3</label>
-                                <input type="text"><label class="input">WomenData4</label>
-                                <input type="text"><label class="input">WomenData5</label>
-                                <input type="text"><label class="input">WomenData6</label>
-                                <input type="text"><label class="input">WomenData7</label>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="button">
-                        <div class="forms">
-                            <form type="text">
-                                <input type="text"><label class="input">UndecidedData1</label>
-                                <input type="text"><label class="input">UndecidedData2</label>
-                                <input type="text"><label class="input">UndecidedData3</label>
-                                <input type="text"><label class="input">UndecidedData4</label>
-                                <input type="text"><label class="input">UndecidedData5</label>
-                                <input type="text"><label class="input">UndecidedData6</label>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button>Refresh</button>
-        </div>
-    </div>
-    <div class="footer">Footer</div>
-</div>
+ <div class="header"></div>
+ <div class="maincontent">
+     <div class="navigator">
+         <input type="radio" name="choice1" class="choose-1-1" id="choice-1-1" checked><label for="choice-1-1" class="choose-1">Men</label>
+         <input type="radio" name="choice1" class="choose-1-1" id="choice-1-2"><label for="choice-1-2" class="choose-1">Women</label>
+     </div>
+     <div class="tabs_content-1">
+         <input type="radio" name="choice2" class="choose-2-1" id="choice-2-1" checked><label for="choice-2-1" class="choose-2">18-30 years</label>
+         <input type="radio" name="choice2" class="choose-2-1" id="choice-2-2"><label for="choice-2-2" class="choose-2">30-45 years</label>
+         <input type="radio" name="choice2" class="choose-2-1" id="choice-2-3"><label for="choice-2-3" class="choose-2">45+ years</label>
+         <div class="tabs">
+             <div id="tab-1"></div>
+             <form action="" name="test">
+                 <label class="men">
+                     <b>Enter name:</b> <input type="text" placeholder="User name" id="nameForm" size="8">
+                 </label>
+                 <label class="men">
+                     <b>Enter age:</b> <input type="number" placeholder="User age" id="ageForm" min="18"></label>
+                 <label class="men">
+                     <b>Enter comment:</b> <input type="text" placeholder="User comment" id="commentForm" size="10">
+                 </label>
+                 <input type="button" id="btn-add" value="Add">
+             </form>
+             <button id="refresh">Refresh</button>
+         </div>
+         <div class="tabs"><span>12</span></div>
+         <div class="tabs"><span>123</span></div>
+     </div>
+ </div>
+<div class="footer"></div>
 <script src="app1.js"></script>
 <script src="app.js"></script>
 </body>

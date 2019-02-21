@@ -1,5 +1,5 @@
+const sing = document.querySelector('#tab-1');
 
-const sing = document.querySelector('#table');
 const newData = new Project1 ({
     Target: sing,
     Template: `<div class="user-card">
