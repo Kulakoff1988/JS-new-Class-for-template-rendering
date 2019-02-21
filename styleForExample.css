@@ -31,7 +31,6 @@ html, body {
 .display-area {
     width: calc(100% - 60px);
     height: calc(100vh - 80px - 31px);
-    display: none;
 }
 
 .navigator {
@@ -46,11 +45,13 @@ input[type=radio] {
 }
 
 .choose-1 {
-    width: 60px;
+    display: block;
+    text-align: center;
+    width: 100% ;
     background-color: #898280;
-    height: 5vh;
+    height: 20px;
     margin-top: 10px;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: background-color .3s;
 }
@@ -147,6 +148,6 @@ form {
     margin-bottom: 5px;
 }
 
-.displayOn {
-    display: block;
+.displayOff {
+    display: none;
 }

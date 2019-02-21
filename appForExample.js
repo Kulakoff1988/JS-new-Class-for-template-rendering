@@ -6,17 +6,11 @@ const   choiceButton1 = document.querySelector('#choice-1-1'),
 console.log(display_area_1.getAttribute('display'), display_area_2.classList);
 
 choiceButton1.addEventListener('click', () => {
-    if (choiceButton1.hasAttribute('checked')) {
-        display_area_1.classList.add('displayOn');
-        display_area_2.classList.remove('displayOn');
-        console.log(display_area_1.getAttribute('display'), display_area_2.classList);
-    }
+        display_area_2.classList.add('displayOff');
+        display_area_1.classList.remove('displayOff');
 });
 
 choiceButton2.addEventListener('click', () => {
-    if (choiceButton2.hasAttribute('checked')) {
-        display_area_2.classList.add('displayOn');
-        display_area_1.classList.remove('displayOn');
-        console.log(display_area_1.getAttribute('display'), display_area_2.classList);
-    }
+        display_area_1.classList.add('displayOff');
+        display_area_2.classList.remove('displayOff');
 });
