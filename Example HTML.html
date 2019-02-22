@@ -6,64 +6,50 @@
     <link rel="stylesheet" href="styleForExample.css">
 </head>
 <body>
- <div class="header"></div>
- <div class="maincontent">
-     <div class="navigator">
-         <input type="radio" name="choice1" class="choose-1-1" id="choice-1-1" checked><label for="choice-1-1" class="choose-1">Men</label>
-         <input type="radio" name="choice1" class="choose-1-1" id="choice-1-2"><label for="choice-1-2" class="choose-1">Women</label>
-     </div>
-     <div class="display-area" id="display-area-1">
-         <div class="tabs_content">
-             <input type="radio" name="choice2" class="choose-2-1" id="choice-2-1" checked><label for="choice-2-1" class="choose-2">18-30 years</label>
-             <input type="radio" name="choice2" class="choose-2-1" id="choice-2-2"><label for="choice-2-2" class="choose-2">30-45 years</label>
-             <input type="radio" name="choice2" class="choose-2-1" id="choice-2-3"><label for="choice-2-3" class="choose-2">45+ years</label>
-             <div class="tabs">
-                 <div id="tab-1"></div>
-                 <form action="" name="test">
-                     <label class="men">
-                         <b>Enter name:</b> <input type="text" placeholder="User name" id="nameForm" size="8">
-                     </label>
-                     <label class="men">
-                         <b>Enter age:</b> <input type="number" placeholder="User age" id="ageForm" min="18"></label>
-                     <label class="men">
-                         <b>Enter comment:</b> <input type="text" placeholder="User comment" id="commentForm" size="10">
-                     </label>
-                     <input type="button" id="btn-add" value="Add">
-                 </form>
-                 <button id="refresh">Refresh</button>
-             </div>
-             <div class="tabs"><span>12</span></div>
-             <div class="tabs"><span>123</span></div>
-         </div>
-     </div>
-     <div class="display-area displayOff" id="display-area-2">
-         <div class="tabs_content">
-             <input type="radio" name="choice2" class="choose-2-1" id="choice-3-1" checked><label for="choice-3-1" class="choose-2">rthrh</label>
-             <input type="radio" name="choice2" class="choose-2-1" id="choice-3-2"><label for="choice-3-2" class="choose-2">rths</label>
-             <input type="radio" name="choice2" class="choose-2-1" id="choice-3-3"><label for="choice-3-3" class="choose-2">rthhjtyhrs</label>
-             <div class="tabs">
-                 <div id="tab-2"></div>
-                 <form action="" name="test">
-                     <label class="men">
-                         <b>Enter name:</b> <input type="text" placeholder="User name" id="nameFor1" size="8">
-                     </label>
-                     <label class="men">
-                         <b>Enter age:</b> <input type="number" placeholder="User age" id="ageForm2" min="18"></label>
-                     <label class="men">
-                         <b>Enter comment:</b> <input type="text" placeholder="User comment" id="commentForm3" size="10">
-                     </label>
-                     <input type="button" id="btn-add1" value="Add">
-                 </form>
-                 <button id="refresh1">Refresh</button>
-             </div>
-             <div class="tabs"><span>12</span></div>
-             <div class="tabs"><span>123</span></div>
-         </div>
-     </div>
- </div>
+<div class="header"></div>
+<div class="workingArea">
+    <div class="navigator">
+<!--        <label for="Humans" class="kindOfLife">Humans<input id="Humans" class="visually-hidden" name="kindOfLife" type="radio"></label>
+        <label for="Elfs" class="kindOfLife">Elfs<input id="Elfs" class="visually-hidden" name="kindOfLife" type="radio"></label>
+        <label for="Orcs" class="kindOfLife">Orсs<input id="Orcs" class="visually-hidden" name="kindOfLife" type="radio"></label>
+        <label for="Trolls" class="kindOfLife">Trolls<input id="Trolls" class="visually-hidden" name="kindOfLife" type="radio"></label>
+        <label for="Gnomes" class="kindOfLife">Gnomes<input id="Gnomes" class="visually-hidden" name="kindOfLife" type="radio"></label>
+        <label for="Ogres" class="kindOfLife">Ogres<input id="Ogres" class="visually-hidden" name="kindOfLife" type="radio"></label>
+        <label for="Protos" class="kindOfLife">Protos<input id="Protos" class="visually-hidden" name="kindOfLife" type="radio"></label>-->
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Humans" checked><label for="Humans" class="kindOfLife">Humans</label>
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Elfs"><label for="Elfs" class="kindOfLife">Elfs</label>
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Orcs"><label for="Orcs" class="kindOfLife">Orсs</label>
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Trolls"><label for="Trolls" class="kindOfLife">Trolls</label>
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Gnomes"><label for="Gnomes" class="kindOfLife">Gnomes</label>
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Ogres"><label for="Ogres" class="kindOfLife">Ogres</label>
+        <input class="visually-hidden" name="kindOfLife" type="radio" id="Protos"><label for="Protos" class="kindOfLife">Protos</label>
+    </div>
+    <div class="maincontent">
+        <div class="dataArea Humans"></div>
+        <div class="dataArea Elfs"></div>
+        <div class="dataArea Orcs"></div>
+        <div class="dataArea Trolls"></div>
+        <div class="dataArea Gnomes"></div>
+        <div class="dataArea Ogres"></div>
+        <div class="dataArea Protos"></div>
+    </div>
+</div>
 <div class="footer"></div>
+ <script src="app1.js"></script>
  <script src="appForExample.js"></script>
-<script src="app1.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
+
+<!--<form action="" name="test" id="form-1">
+    <label class="men">
+        <b>Enter name:</b> <input type="text" placeholder="User name" id="nameForm" size="8">
+    </label>
+    <label class="men">
+        <b>Enter age:</b> <input type="number" placeholder="User age" id="ageForm" min="18"></label>
+    <label class="men">
+        <b>Enter comment:</b> <input type="text" placeholder="User comment" id="commentForm" size="10">
+    </label>
+    <input type="button" id="btn-add" value="Add">
+</form>
+<button id="refresh">Refresh</button>-->

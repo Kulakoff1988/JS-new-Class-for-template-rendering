@@ -1,4 +1,4 @@
-const sing = document.querySelector('#tab-1');
+const sing = document.querySelector('#tab-Target');
 
 const newData = new Project1 ({
     Target: sing,

@@ -9,14 +9,10 @@ const DocumentList = [
     {ID: 8,   Description: 'Descript9238', Name: 'expaml235e.js', HeadingID: 4, MasterDocumentID: 6},
     {ID: 9,   Description: 'cat1;kldfgdk', Name: 'expaml235e.js', HeadingID: 1, MasterDocumentID: -1},
     {ID: 10,   Description: 'rgh;kldfgdk', Name: 'egpaml235e.js', HeadingID: 2, MasterDocumentID: -1},
-    {ID: 11,   Description: 'catfdjdfgdk', Name: 'exhaml235e.js', HeadingID: 3, MasterDocumentID: -1},
+    {ID: 11,   Description: 'catfdjdfgdk', Name: 'exhaml235e.js', HeadingID: 3, MasterDocumentID: 1},
     {ID: 12,   Description: 'ca54654ldfgdk', Name: 'ex5aml235e.js', HeadingID: 5, MasterDocumentID: -1},
     {ID: 13,   Description: 'cahfgh46dfgdk', Name: 'e7paml235e.js', HeadingID: 4, MasterDocumentID: -1},
 ];
-
-const filterByHead = (list, number) => {
-    return list.filter(item => item.HeadingID === number);
-};
 
 const HeadingDict = {
     1: 'Palaces',
@@ -55,14 +51,13 @@ const Render = (list, dict) => {
     let result;
     let newHeadTag;
     let newMasterTag;
-    let masterID = ``;
+    let masterID = null;
     let filtered;
-    let newTargetTag;
     for (let head of Object.keys(dict)) {
         newHeadTag = newHead(dict, head);
         result = list.filter(item => item.HeadingID === +head)
                      .sort((a, b) => a.MasterDocumentID - b.MasterDocumentID);
-        newTargetTag = document.createElement('div');
+        let newTargetTag = document.createElement('div');
         newTargetTag.classList.add('newDocList');
         for (let doc of result) {
             if (masterID !== doc.MasterDocumentID) {

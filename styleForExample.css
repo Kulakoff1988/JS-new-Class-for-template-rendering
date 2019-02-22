@@ -14,6 +14,7 @@ html, body {
     height: 80px;
     background-color: #5c9baa;
     color: #fff;
+    border-bottom: #685D5D 1px solid;
 }
 
 .footer {
@@ -21,101 +22,82 @@ html, body {
     height: 30px;
     background-color: #d9ddd5;
     border-top: #685D5D 1px solid;
+    z-index: 1;
 }
 
-.maincontent {
-    height: calc(100vh - 80px - 31px);
-    width: 100%;
-}
-
-.display-area {
-    width: calc(100% - 60px);
-    height: calc(100vh - 80px - 31px);
+.workingArea {
+    display: flex;
 }
 
 .navigator {
     float: left;
     width: 80px;
-    height: 100%;
+    height: calc(100vh - 81px - 31px);
     background-color: #2e3d44;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-input[type=radio] {
-    display: none;
-}
-
-.choose-1 {
-    display: block;
-    text-align: center;
-    width: 100% ;
-    background-color: #898280;
-    height: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: background-color .3s;
-}
-
-.choose-1:hover,
-.choose-1-1:checked + label {
-    background-color: #d9ddd5;
-}
-
-.tabs_content {
-    width: 80vw;
-    min-height: 10vh;
-    max-height: 40vh;
-    float: left;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.choose-2 {
-    display: block;
-    float: left;
-    height: 20px;
-    width: 15%;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color .3s;
-    margin: 0 2px;
-    border-left: 1px solid #685D5D;
-    border-top: 1px solid #685D5D;
-    border-right: 1px solid #685D5D;
-    margin-left: 0;
-}
-
-.choose-2[for='choice-2-3'] {
-    margin-right: 200px;
-}
-
-.choose-2:last-child {
-    margin-right: 200px;
-}
-
-.choose-2:hover,
-.choose-2-1:checked + label {
-    background-color: #d9ddd5;
-    border-left: 3px inset #685D5D;
-    border-top: 3px inset #685D5D;
-    border-right: 3px inset #685D5D;
-}
-
-.tabs {
-    background-color: #d9ddd5;
-    display: none;
-    float: left;
+.kindOfLife {
     width: 100%;
-    min-height: 40%;
-    border: 3px solid #685D5D;
-    max-height: 80vh;
-    overflow-y: auto;
+    height: 20px;
+    background-color: antiquewhite;
+    margin-top: 5px;
+    text-align: center;
 }
 
-#choice-2-1:checked ~ div:nth-of-type(1),
-#choice-2-2:checked ~ div:nth-of-type(2),
-#choice-2-3:checked ~ div:nth-of-type(3) {
-    display: block;
+.kindOfLife:hover,
+.visually-hidden:checked + label {
+    background-color: #685D5D;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.visually-hidden {
+    position: absolute;
+    clip: rect(0 0 0 0);
+}
+
+.maincontent {
+    height: calc(100vh - 81px - 31px);
+    width: 100%;
+    background-color: black;
+}
+
+.dataArea {
+    background-color: gold;
+    display: none;
+    width: 100%;
+    height: calc(100vh - 81px - 31px);
+}
+
+.Humans {
+    background-color: red;
+}
+
+.Elfs {
+    background-color: darkcyan;
+}
+
+.Orcs {
+    background-color: blue;
+}
+
+.Trolls {
+    background-color: turquoise;
+}
+
+.Gnomes {
+    background-color: green;
+}
+
+.Ogres {
+    background-color: blueviolet;
+}
+
+.Protos {
+    background-color: #ff3ccd;
 }
 
 .user-card {
@@ -148,6 +130,6 @@ form {
     margin-bottom: 5px;
 }
 
-.displayOff {
-    display: none;
+.displayOn {
+    display: block;
 }
