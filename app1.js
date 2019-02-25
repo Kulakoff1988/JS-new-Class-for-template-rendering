@@ -5,7 +5,6 @@ const   ButtonAdd = document.querySelector('#btn-add'),
         commentForm = document.querySelector('#commentForm'),
         refreshButton = document.querySelector('button'),
         RegExpForDefiner = new RegExp('\\b\\w+\\b(?=%)', 'g'),
-        choiceButton = document.querySelector('#choice-1-1'),
 
         clearForm =() => {
             nameForm.value = '';
@@ -46,21 +45,22 @@ class Project1 {
         ButtonAdd.addEventListener('click', () => {
             this.Add({  Name: nameForm.value,
                         Age: +ageForm.value,
-                        Comment: commentForm.value});
+                        Comment: commentForm.value  });
             clearForm();
         });
 
-        document.addEventListener('keydown', evt => {
+        commentForm.addEventListener('keydown', evt => {
             if(evt.keyCode === 13) {
-                this.Add({Name: nameForm.value, Age: ageForm.value, Comment: commentForm.value});
-                clearForm()
+                this.Add({  Name: nameForm.value,
+                            Age: +ageForm.value,
+                            Comment: commentForm.value  });
+                clearForm();
             }
         });
 
         refreshButton.addEventListener('click', () => {
             this._removeCurrentRendering()
         });
-
     }
 
     get Slaves() {

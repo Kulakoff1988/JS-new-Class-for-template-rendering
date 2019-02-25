@@ -9,13 +9,6 @@
 <div class="header"></div>
 <div class="workingArea">
     <div class="navigator">
-<!--        <label for="Humans" class="kindOfLife">Humans<input id="Humans" class="visually-hidden" name="kindOfLife" type="radio"></label>
-        <label for="Elfs" class="kindOfLife">Elfs<input id="Elfs" class="visually-hidden" name="kindOfLife" type="radio"></label>
-        <label for="Orcs" class="kindOfLife">Orсs<input id="Orcs" class="visually-hidden" name="kindOfLife" type="radio"></label>
-        <label for="Trolls" class="kindOfLife">Trolls<input id="Trolls" class="visually-hidden" name="kindOfLife" type="radio"></label>
-        <label for="Gnomes" class="kindOfLife">Gnomes<input id="Gnomes" class="visually-hidden" name="kindOfLife" type="radio"></label>
-        <label for="Ogres" class="kindOfLife">Ogres<input id="Ogres" class="visually-hidden" name="kindOfLife" type="radio"></label>
-        <label for="Protos" class="kindOfLife">Protos<input id="Protos" class="visually-hidden" name="kindOfLife" type="radio"></label>-->
         <input class="visually-hidden" name="kindOfLife" type="radio" id="Humans" checked><label for="Humans" class="kindOfLife">Humans</label>
         <input class="visually-hidden" name="kindOfLife" type="radio" id="Elfs"><label for="Elfs" class="kindOfLife">Elfs</label>
         <input class="visually-hidden" name="kindOfLife" type="radio" id="Orcs"><label for="Orcs" class="kindOfLife">Orсs</label>
@@ -25,19 +18,53 @@
         <input class="visually-hidden" name="kindOfLife" type="radio" id="Protos"><label for="Protos" class="kindOfLife">Protos</label>
     </div>
     <div class="maincontent">
-        <div class="dataArea Humans"></div>
-        <div class="dataArea Elfs"></div>
-        <div class="dataArea Orcs"></div>
-        <div class="dataArea Trolls"></div>
-        <div class="dataArea Gnomes"></div>
-        <div class="dataArea Ogres"></div>
-        <div class="dataArea Protos"></div>
+        <div class="dataArea Humans displayOn">
+            <div class="tabsForHumans">
+                <input type="radio" name="humansChoice" class="humansChoiceInput" id="humansChoice-1" checked><label for="humansChoice-1" class="humansChoice">18-30 years</label>
+                <input type="radio" name="humansChoice" class="humansChoiceInput" id="humansChoice-2"><label for="humansChoice-2" class="humansChoice">30-45 years</label>
+                <input type="radio" name="humansChoice" class="humansChoiceInput" id="humansChoice-3"><label for="humansChoice-3" class="humansChoice">45+ years</label>
+            </div>
+            <div class="panelsForHumans displayOn">
+                <div class="targetForHumans"></div>
+                <div class="formToAdd">
+                    <form action="" name="test">
+                        <div>
+                            <label class="men">
+                                <b>Enter name:</b> <input type="text" placeholder="User name" id="nameForm" size="8">
+                            </label>
+                        </div>
+                        <div>
+                            <label class="men">
+                                <b>Enter age:</b> <input type="number" placeholder="User age" id="ageForm" min="18">
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <b>Enter comment:</b> <input type="text" placeholder="User comment" id="commentForm" size="10">
+                            </label>
+                        </div>
+                        <div>
+                            <input type="button" id="btn-add" value="Add">
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="panelsForHumans"><div class="user-card">Panel-1 Content</div></div>
+            <div class="panelsForHumans"><div class="user-card">Panel-2 Content</div></div>
+            <button id="refresh">Refresh</button>
+        </div>
+        <div class="dataArea Elfs">Elfs</div>
+        <div class="dataArea Orcs">Orcs</div>
+        <div class="dataArea Trolls">Trolls</div>
+        <div class="dataArea Gnomes">Gnomes</div>
+        <div class="dataArea Ogres">Ogres</div>
+        <div class="dataArea Protos">Protos</div>
     </div>
 </div>
 <div class="footer"></div>
- <script src="app1.js"></script>
- <script src="appForExample.js"></script>
-<script src="app.js"></script>
+<script src="app1.js"></script>
+<script src="appForExample.js"></script>
 </body>
 </html>
 

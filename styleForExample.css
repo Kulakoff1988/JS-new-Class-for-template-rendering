@@ -49,7 +49,7 @@ html, body {
 
 .kindOfLife:hover,
 .visually-hidden:checked + label {
-    background-color: #685D5D;
+    background-color: #D5B0C7;
     transition: 0.3s;
     cursor: pointer;
 }
@@ -62,49 +62,87 @@ html, body {
 .maincontent {
     height: calc(100vh - 81px - 31px);
     width: 100%;
-    background-color: black;
+    overflow: hidden;
 }
 
 .dataArea {
-    background-color: gold;
     display: none;
+    flex-direction: column;
     width: 100%;
     height: calc(100vh - 81px - 31px);
 }
 
-.Humans {
-    background-color: red;
+.panelsForHumans {
+    display: none;
+    flex-direction: column;
 }
 
-.Elfs {
-    background-color: darkcyan;
+.humansChoiceInput {
+    display: none;
 }
 
-.Orcs {
-    background-color: blue;
+.humansChoice {
+    align-self: flex-start;
+    width: 100px;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
 }
 
-.Trolls {
-    background-color: turquoise;
+.humansChoice:hover,
+.humansChoiceInput:checked + label {
+    background-color: #D5B0C7;
+    transition: 0.3s;
+    cursor: pointer;
 }
 
-.Gnomes {
-    background-color: green;
+.humansChoiceInput:checked + label {
+    border-left: 1.5px solid black;
+    border-top: 1.5px solid black;
+    border-right: 1.5px solid black;
 }
 
-.Ogres {
-    background-color: blueviolet;
+.tabsForHumans {
+    margin-left: 2px;
+    margin-top: 2px;
 }
 
-.Protos {
-    background-color: #ff3ccd;
+.targetForHumans {
+    max-height: 80vh;
+    overflow: auto;
+    width: 70vw;
+}
+
+.formToAdd {
+    width: 70vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    min-height: 30px;
+    flex-wrap: wrap;
+}
+
+#btn-add {
+    margin: 0 30px;
 }
 
 .user-card {
+    width: 65vw;
+    flex-direction: row;
+    flex-wrap: wrap;
     clear: both;
-    height: 50px;
+    min-height: 50px;
     border: 1px solid #444440;
-    margin: 2px;
+    margin: 0 2px 1px;
+    overflow: hidden;
 }
 
 .template {
@@ -118,18 +156,18 @@ html, body {
     height: 20px;
 }
 
+#btn-save,
+#btn-remove {
+    font-size: 10px;
+}
+
 #refresh {
-    display: block;
-    float: right;
+    width: 70px;
+    align-self: flex-end;
     margin-right: 10px;
     margin-bottom: 10px;
 }
 
-form {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
 .displayOn {
-    display: block;
+    display: flex;
 }

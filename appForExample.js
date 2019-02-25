@@ -1,40 +1,42 @@
-// const targetTag = document.querySelector('#tab-Target1');
-// const newData1 = new Project1 ({
-//     Target: targetTag,
-//     Template: `<div class="user-card">
-//                     <div class="template">%Name%</div>
-//                     <div class="template" id="date-of-birth">%Age%</div>
-//                     <textarea class="template" id="textarea">%Comment%</textarea>
-//                     <button class="template" id="btn-save">Save</button>
-//                     <button class="template" id="btn-remove">Remove</button>
-//                </div>`,
-//     Users: []
-// });
-//
-// newData1.Slaves =[{Name: 'Sara Conor', Age: 40, Comment: 'killer'}];
+const targetTag = document.querySelector('.targetForHumans');
+const newData1 = new Project1 ({
+    Target: targetTag,
+    Template: `<div class="user-card">
+                    <div class="template">%Name%</div>
+                    <div class="template" id="date-of-birth">%Age%</div>
+                    <textarea class="template" id="textarea">%Comment%</textarea>
+                    <button class="template" id="btn-save">Save</button>
+                    <button class="template" id="btn-remove">Remove</button>
+               </div>`,
+    Users: []
+});
 
-const   dataAreasContainer = document.querySelector('.maincontent');
+newData1.Slaves =[{Name: 'Sara Conor', Age: 40, Comment: 'killer'}, {Name: 'John Conor', Age: 15, Comment: "Sara's son"}];
 
-const   navigatorButtons = document.querySelectorAll('.visually-hidden');
-        dataAreasList = dataAreasContainer.children;
-        switchCurrentRender = buttonsToCheck => {
-          [currentButton, ...restOfButtons] = buttonsToCheck;
-          return currentButton.hasAttribute('checked') ? currentButton : switchCurrentRender(restOfButtons);
+const   dataAreasContainer = document.querySelector('.maincontent'),
+        navigatorButtons = document.querySelectorAll('.visually-hidden'),
+        dataAreasList = dataAreasContainer.children,
+        tabsButtons = document.querySelectorAll('.humansChoiceInput'),
+        contentPanels = document.querySelectorAll('.panelsForHumans');
+
+const   switchButtonsHandler = (buttons, switchableAreas) => {
+            for (let i = 0; i < switchableAreas.length; i ++) {
+                switchCurrentRender(buttons[i], switchableAreas[i], switchableAreas);
+            }
+        },
+
+        switchCurrentRender = (activeButton, areaToActive, areasToRemove) => {
+            activeButton.addEventListener('click', () => {
+                removeInactiveAreas(areasToRemove);
+                areaToActive.classList.add('displayOn');
+            });
+        },
+
+        removeInactiveAreas = areasToRemove => {
+            for (let areaToRemove of areasToRemove) {
+                areaToRemove.classList.remove('displayOn');
+            }
         };
 
-const pusherFunction = (buttons, domsToRender) => {
-    // if (buttons.length === 0) return;
-    // const [button, ...buttonsRest] = buttons;
-    // const [domToRender, ...domsToRenderRest] = domsToRender;
-    // button.addEventListener('click', () => {
-    //     domToRender.classList.add('displayOn');
-    //     dataAreasList.map(e => e.classList.remove('displayOn'));
-    // });
-    // return pusherFunction(buttonsRest, domsToRenderRest);
-    console.log(buttons.indexOf(switchCurrentRender(buttons)));
-    for (let i = 0; i < domsToRender.length; i ++) {
-        domsToRender[buttons.indexOf(switchCurrentRender(buttons))].classList.add('displayOn');
-    }
-};
-
-pusherFunction(navigatorButtons, dataAreasList);
+switchButtonsHandler(navigatorButtons, dataAreasList);
+switchButtonsHandler(tabsButtons, contentPanels);
