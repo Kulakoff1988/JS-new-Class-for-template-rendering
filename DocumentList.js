@@ -1,17 +1,17 @@
 const DocumentList = [
-    {ID: 1,   Description: 'Description1', Name: 'expaahrt-1.js', HeadingID: 1, MasterDocumentID: -1},
-    {ID: 2,   Description: 'Description1', Name: 'exle-rjt-2.js', HeadingID: 1, MasterDocumentID: 201},
-    {ID: 3,   Description: 'Descripjpspf', Name: 'e23rx23g5e.js', HeadingID: 3, MasterDocumentID: -1},
-    {ID: 4,   Description: 'Description2', Name: 'expa23rmle.js', HeadingID: 2, MasterDocumentID: -1},
-    {ID: 5,   Description: 'Description2', Name: 'expaml235e.js', HeadingID: 2, MasterDocumentID: 4},
-    {ID: 6,   Description: 'Description8', Name: 'expa235mle.js', HeadingID: 3, MasterDocumentID: -1},
-    {ID: 7,   Description: 'Description1', Name: 'expaml235e.js', HeadingID: 1, MasterDocumentID: 201},
-    {ID: 8,   Description: 'Descript9238', Name: 'expaml235e.js', HeadingID: 4, MasterDocumentID: 6},
-    {ID: 9,   Description: 'cat1;kldfgdk', Name: 'expaml235e.js', HeadingID: 1, MasterDocumentID: -1},
-    {ID: 10,   Description: 'rgh;kldfgdk', Name: 'egpaml235e.js', HeadingID: 2, MasterDocumentID: -1},
-    {ID: 11,   Description: 'catfdjdfgdk', Name: 'exhaml235e.js', HeadingID: 3, MasterDocumentID: 1},
-    {ID: 12,   Description: 'ca54654ldfgdk', Name: 'ex5aml235e.js', HeadingID: 5, MasterDocumentID: -1},
-    {ID: 13,   Description: 'cahfgh46dfgdk', Name: 'e7paml235e.js', HeadingID: 4, MasterDocumentID: -1},
+    {ID: 1,   Description: 'Description1', Name: 'example-a.js', HeadingID: 1, MasterDocumentID: -1},
+    {ID: 2,   Description: 'Description1', Name: 'example-h.js', HeadingID: 1, MasterDocumentID: 201},
+    {ID: 3,   Description: 'Descripjpspf', Name: 'example-b.js', HeadingID: 3, MasterDocumentID: -1},
+    {ID: 4,   Description: 'Description2', Name: 'example-i.js', HeadingID: 2, MasterDocumentID: -1},
+    {ID: 5,   Description: 'Description2', Name: 'example-c.js', HeadingID: 2, MasterDocumentID: 4},
+    {ID: 6,   Description: 'Description8', Name: 'example-j.js', HeadingID: 3, MasterDocumentID: -1},
+    {ID: 7,   Description: 'Description1', Name: 'example-d.js', HeadingID: 1, MasterDocumentID: 201},
+    {ID: 8,   Description: 'Descript9238', Name: 'example-k.js', HeadingID: 4, MasterDocumentID: 6},
+    {ID: 9,   Description: 'cat1;kldfgdk', Name: 'example-e.js', HeadingID: 1, MasterDocumentID: -1},
+    {ID: 10,   Description: 'rgh;kldfgdk', Name: 'example-l.js', HeadingID: 2, MasterDocumentID: -1},
+    {ID: 11,   Description: 'catfdjdfgdk', Name: 'example-f.js', HeadingID: 3, MasterDocumentID: 1},
+    {ID: 12,   Description: 'ca54654ldfgdk', Name: 'example-m.js', HeadingID: 5, MasterDocumentID: -1},
+    {ID: 13,   Description: 'cahfgh46dfgdk', Name: 'example-g.js', HeadingID: 4, MasterDocumentID: -1},
 ];
 
 const HeadingDict = {
@@ -29,14 +29,20 @@ const newDoc = doc => {
     newDoc.innerHTML = `<div class="id">ID: ${doc.ID}</div>
                         <div class="name">Name: ${doc.Name}</div>
                         <div class="description">Description: ${doc.Description}</div>`;
-    newDoc.classList.add(`documentData`);
+    newDoc.classList.add(`newTag`);
     return newDoc;
 };
 
-const newMaster = masterID => {
+const newTag = (tagName, doc) => {
     let newMaster = document.createElement('div');
-    newMaster.classList.add(`masterList`);
-    newMaster.innerHTML = `<span>MasterID:${masterID}</span>`;
+    if (tagName === `HeadingID`) {
+        newMaster.classList.add(`newTag`);
+        newMaster.innerHTML = `<span>${HeadingDict[doc[tagName]]}</span>`;
+    }
+    if (tagName === `MasterDocumentID`) {
+        newMaster.classList.add(`newTag`);
+        newMaster.innerHTML = `<span>${tagName}: ${doc[tagName]}</span>`;
+    }
     return newMaster;
 };
 
@@ -63,7 +69,7 @@ const Render = (list, dict) => {
             if (masterID !== doc.MasterDocumentID) {
                 masterID = doc.MasterDocumentID;
                 filtered = result.filter(item => item.MasterDocumentID === masterID);
-                newMasterTag = newMaster(masterID);
+                newMasterTag = newTag(masterID);
                 for (let doc of filtered) {
                     newMasterTag.appendChild(newDoc(doc));
                 }
@@ -75,4 +81,37 @@ const Render = (list, dict) => {
     }
 };
 
-Render(DocumentList, HeadingDict);
+//Render(DocumentList, HeadingDict);
+
+const testRender = (list, ...arguments) => {
+    let newTopTag;
+    let currentComparator = null;
+    let filtered;
+    const iter = (arg, documentsList) => {
+        const sorted = documentsList.sort((a, b) => {
+            if (a[arg] > b[arg]) return 1;
+            if (a[arg] < b[arg]) return -1;
+            return 0;
+        });
+        for (let doc of sorted) {
+            let newTargetTag = document.createElement('div');
+            newTargetTag.classList.add('newDocList');
+            if (currentComparator !== doc[arg]) {
+                currentComparator = doc[arg];
+                filtered = sorted.filter(item => item[arg] === currentComparator);
+                newTopTag = newTag(arg, doc);
+                for (let doc of filtered) {
+                    newTopTag.appendChild(newDoc(doc));
+                }
+                newTargetTag.appendChild(newTopTag);
+                Target.appendChild(newTargetTag);
+                console.log(Target);
+            }
+        }
+    };
+    for (let argument of arguments) {
+      iter(argument, list);
+    }
+};
+
+testRender(DocumentList, `MasterDocumentID`);

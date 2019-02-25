@@ -3,55 +3,17 @@ body {
     height: 100%;
     font-family: Verdana, serif;
     background-color: #d9ddd5;
-    display: flex;
-    justify-content: flex-start;
 }
 
 .documents {
     display: flex;
-}
-
-.headingID {
-    flex-direction: row;
-    order: -1;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-left: 20px;
-    height: 30px;
-    border: 2px solid black;
-    background-color: #f7fff3;
-    text-align: center;
-    padding-top: 10px;
-    align-self: flex-start;
-}
-
-.masterList {
-    display: flex;
-    min-height: 50px;
-    width: 95%;
     flex-direction: column;
-    border: 2px solid black;
-    margin: 5px;
-}
-
-.documentData {
-    border: 1px solid black;
-    background-color: #f7fff3;
-    margin: 5px;
-}
-
-.id,
-.name,
-.description {
-    flex-direction: column;
-    margin: 10px;
-    font-family: COURIER;
+    justify-content: stretch;
 }
 
 .newDocList {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     width: 100%;
     background-color: #f7fff3;
     padding-bottom: 20px;
@@ -60,9 +22,19 @@ body {
     flex-wrap: wrap;
 }
 
+.newTag {
+    display: flex;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    height: 30px;
+    border: 2px solid black;
+    background-color: #f7fff3;
+    text-align: center;
+    padding-top: 10px;
+}
+
 span {
-    display: block;
-    float: left;
     width: 100px;
     margin-left: 20px;
     margin-top: 20px;

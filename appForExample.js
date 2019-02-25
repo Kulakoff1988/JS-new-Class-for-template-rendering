@@ -40,3 +40,9 @@ const   switchButtonsHandler = (buttons, switchableAreas) => {
 
 switchButtonsHandler(navigatorButtons, dataAreasList);
 switchButtonsHandler(tabsButtons, contentPanels);
+
+
+const Areas = {
+    ButtonToShow: '',
+    Area: ''
+};

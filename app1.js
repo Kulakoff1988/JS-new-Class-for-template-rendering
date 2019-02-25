@@ -17,6 +17,7 @@ const   ButtonAdd = document.querySelector('#btn-add'),
             for (let word of words) {
                 if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
             }
+            console.log(user);
             return user;
         };
 
