@@ -13,36 +13,78 @@ const newData1 = new Project1 ({
 
 newData1.Slaves =[{Name: 'Sara Conor', Age: 40, Comment: 'killer'}, {Name: 'John Conor', Age: 15, Comment: "Sara's son"}];
 
+const   switchButtonsHandler = handlerList => {
+        for (let areaToShow of handlerList) {
+            switchCurrentRender(areaToShow.ActiveButton, areaToShow.Area, handlerList);
+        }
+    },
+
+    switchCurrentRender = (activeButton, areaToActive, areasToRemove) => {
+        activeButton.addEventListener('click', () => {
+            removeInactiveAreas(areasToRemove);
+            areaToActive.classList.add('displayOn');
+        });
+    },
+
+    removeInactiveAreas = areasToRemove => {
+        for (let areaToRemove of areasToRemove) {
+            areaToRemove.Area.classList.remove('displayOn');
+        }
+    };
+
 const   dataAreasContainer = document.querySelector('.maincontent'),
-        navigatorButtons = document.querySelectorAll('.visually-hidden'),
+        navigatorButtons = document.querySelector('.navigator'),
         dataAreasList = dataAreasContainer.children,
+        tabsForHumans = document.querySelector('.tabsForHumans'),
+        humansPanels = document.querySelector('.Humans'),
         tabsButtons = document.querySelectorAll('.humansChoiceInput'),
         contentPanels = document.querySelectorAll('.panelsForHumans');
 
-const   switchButtonsHandler = (buttons, switchableAreas) => {
-            for (let i = 0; i < switchableAreas.length; i ++) {
-                switchCurrentRender(buttons[i], switchableAreas[i], switchableAreas);
-            }
-        },
+const mainContentHandler = [
+    {
+        ActiveButton: navigatorButtons.querySelector('#Humans'),
+        Area: dataAreasContainer.querySelector('.Humans'),
+    },
+    {
+        ActiveButton: navigatorButtons.querySelector('#Elfs'),
+        Area: dataAreasContainer.querySelector('.Elfs'),
+    },
+    {
+        ActiveButton: navigatorButtons.querySelector('#Orcs'),
+        Area: dataAreasContainer.querySelector('.Orcs'),
+    },
+    {
+        ActiveButton: navigatorButtons.querySelector('#Trolls'),
+        Area: dataAreasContainer.querySelector('.Trolls'),
+    },
+    {
+        ActiveButton: navigatorButtons.querySelector('#Gnomes'),
+        Area: dataAreasContainer.querySelector('.Gnomes'),
+    },
+    {
+        ActiveButton: navigatorButtons.querySelector('#Ogres'),
+        Area: dataAreasContainer.querySelector('.Ogres'),
+    },
+    {
+        ActiveButton: navigatorButtons.querySelector('#Protos'),
+        Area: dataAreasContainer.querySelector('.Protos'),
+    }
+    ],
 
-        switchCurrentRender = (activeButton, areaToActive, areasToRemove) => {
-            activeButton.addEventListener('click', () => {
-                removeInactiveAreas(areasToRemove);
-                areaToActive.classList.add('displayOn');
-            });
-        },
+    tabsForHumansHandler = [
+    {
+        ActiveButton: tabsForHumans.querySelector('#humansChoice-1'),
+        Area: humansPanels.querySelector('#area8'),
+    },
+    {
+        ActiveButton: tabsForHumans.querySelector('#humansChoice-2'),
+        Area: humansPanels.querySelector('#area9'),
+    },
+    {
+        ActiveButton: tabsForHumans.querySelector('#humansChoice-3'),
+        Area: humansPanels.querySelector('#area10'),
+    }
+    ];
 
-        removeInactiveAreas = areasToRemove => {
-            for (let areaToRemove of areasToRemove) {
-                areaToRemove.classList.remove('displayOn');
-            }
-        };
-
-switchButtonsHandler(navigatorButtons, dataAreasList);
-switchButtonsHandler(tabsButtons, contentPanels);
-
-
-const Areas = {
-    ButtonToShow: '',
-    Area: ''
-};
+switchButtonsHandler(mainContentHandler);
+switchButtonsHandler(tabsForHumansHandler);

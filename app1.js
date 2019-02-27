@@ -17,7 +17,6 @@ const   ButtonAdd = document.querySelector('#btn-add'),
             for (let word of words) {
                 if (!user.hasOwnProperty(word)) user[word] = `Not specified`;
             }
-            console.log(user);
             return user;
         };
 
@@ -37,7 +36,7 @@ const   ButtonAdd = document.querySelector('#btn-add'),
 class Project1 {
     constructor ({  Target = void 0,
                     Template = ``,
-                    Users = [],
+                    Users = []
                 }) {
         this.Users = Users;
         this.Target = Target;

@@ -2,40 +2,44 @@ body {
     width: 98%;
     height: 100%;
     font-family: Verdana, serif;
-    background-color: #d9ddd5;
+    margin: 0;
+    padding: 0;
 }
 
-.documents {
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
+.sliderContainer {
+    height: 3vh;
+    margin: 100px;
+    position: relative;
 }
 
-.newDocList {
-    display: flex;
-    flex-direction: column;
+#slider {
+    /*background: #E0E0E0;*/
+    /*background: -moz-linear-gradient(left top, #E0E0E0, #EEEEEE) repeat scroll 0 0 transparent;*/
+    /*background: -webkit-gradient(linear, left top, right bottom, from(#E0E0E0), to(#EEEEEE));*/
+    /*background: linear-gradient(left top, #E0E0E0, #EEEEEE);*/
+    background-color: white;
     width: 100%;
-    background-color: #f7fff3;
-    padding-bottom: 20px;
-    border: 1px solid black;
-    margin: 10px;
-    flex-wrap: wrap;
-}
-
-.newTag {
-    display: flex;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-left: 20px;
-    height: 30px;
+    height: 100%;
     border: 2px solid black;
-    background-color: #f7fff3;
-    text-align: center;
-    padding-top: 10px;
+    display: flex;
 }
 
-span {
-    width: 100px;
-    margin-left: 20px;
-    margin-top: 20px;
+.thumb {
+    height: 100%;
+    position: relative;
+    background: #5c9baa;
+    cursor: pointer;
+}
+
+.filledArea {
+    background-color: coral;
+    height: 100%;
+    margin: 0;
+    position: absolute;
+}
+
+.devisions {
+    width: 500px;
+    height: 3px;
+    background-color: black;
 }

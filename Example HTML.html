@@ -18,13 +18,13 @@
         <input class="visually-hidden" name="kindOfLife" type="radio" id="Protos"><label for="Protos" class="kindOfLife">Protos</label>
     </div>
     <div class="maincontent">
-        <div class="dataArea Humans displayOn">
+        <div class="dataArea Humans displayOn" toShow="button1">
             <div class="tabsForHumans">
                 <input type="radio" name="humansChoice" class="humansChoiceInput" id="humansChoice-1" checked><label for="humansChoice-1" class="humansChoice">18-30 years</label>
                 <input type="radio" name="humansChoice" class="humansChoiceInput" id="humansChoice-2"><label for="humansChoice-2" class="humansChoice">30-45 years</label>
                 <input type="radio" name="humansChoice" class="humansChoiceInput" id="humansChoice-3"><label for="humansChoice-3" class="humansChoice">45+ years</label>
             </div>
-            <div class="panelsForHumans displayOn">
+            <div class="panelsForHumans displayOn" id="area8">
                 <div class="targetForHumans"></div>
                 <div class="formToAdd">
                     <form action="" name="test">
@@ -48,10 +48,9 @@
                         </div>
                     </form>
                 </div>
-
             </div>
-            <div class="panelsForHumans"><div class="user-card">Panel-1 Content</div></div>
-            <div class="panelsForHumans"><div class="user-card">Panel-2 Content</div></div>
+            <div class="panelsForHumans" id="area9"><div class="user-card">Panel-1 Content</div></div>
+            <div class="panelsForHumans" id="area10"><div class="user-card">Panel-2 Content</div></div>
             <button id="refresh">Refresh</button>
         </div>
         <div class="dataArea Elfs">Elfs</div>
