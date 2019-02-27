@@ -20,6 +20,9 @@ class ValueBar {
         this.slider = document.createElement('div');
         this.toddler = document.createElement('div');
         this.filledArea = document.createElement('div');
+        this.valueArea = document.createElement('input');
+        this.valueArea.type = 'textarea';
+        this.valueArea.classList.add('valueArea');
         this.filledArea.classList.add('filledArea');
         this.slider.id = 'slider';
         this.toddler.classList.add('thumb');
@@ -28,7 +31,8 @@ class ValueBar {
         this.slider.appendChild(this.filledArea);
         this.slider.appendChild(this.toddler);
         this.Target.appendChild(this.slider);
-        this.Target.addEventListener('mousedown', this._onMouseDown.bind(this));
+        this.Target.appendChild(this.valueArea);
+        this.slider.addEventListener('mousedown', this._onMouseDown.bind(this));
         document.addEventListener('mousemove', this._onMouseMove.bind(this));
         document.addEventListener('mouseup', this._onMouseUp.bind(this))
     }
@@ -40,8 +44,7 @@ class ValueBar {
         this.shiftX = e.pageX - this.toddlerCoords.left;
         this.toddler.style.left = `calc(${this.toddler.style.left} + ${this.shiftX}px)`;
         this.filledArea.style.width = this.toddler.style.left;
-        console.log(this.filledArea.style.width)
-
+        this.valueArea.value = this.Current;
     }
 
     _onMouseMove(e) {
@@ -53,7 +56,7 @@ class ValueBar {
             if (this.newLeft > rightSide) this.newLeft = rightSide;
             this.toddler.style.left = this.newLeft + 'px';
             this.filledArea.style.width = this.toddler.style.left;
-            //console.log(this.Current)
+            this.valueArea.value = this.Current
         }
     }
 
@@ -62,8 +65,7 @@ class ValueBar {
         this.newCurrent = Math.round((this.Max - this.Min) * parseInt(this.filledArea.style.width) /
             parseInt(this.Target.style.width) + this.Min);
         this.Current = this.newCurrent;
-        console.log(this.Target.style.width)
-        //console.log(this.Current)
+        this.valueArea.value = this.Current
     }
 
     static getCoords(elem) {
@@ -74,11 +76,11 @@ class ValueBar {
         }
     }
 
-    get Value(){
+    get Value (){
         return this.Current;
     }
 
-    set Value(newValue){
+    set Value (newValue){
         this.Current = newValue;
     }
 
