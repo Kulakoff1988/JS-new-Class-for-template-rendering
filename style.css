@@ -38,8 +38,45 @@ body {
     position: absolute;
 }
 
-.devisions {
-    width: 500px;
-    height: 3px;
+.stepBar {
+    height: 10px;
+    width: 100%;
+    margin-left: 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.numbersBar {
+    width: 105%;
+    height: 10px;
+    display: flex;
+    justify-content: space-between;
+    overflow: inherit;
+}
+
+.division {
+    height: 10px;
+    width: 1px;
+    background-color: black;
+}
+
+.startStep {
+    font-size: 9px;
+    float: left;
+    left: 10px;
+}
+
+.endStep {
+    float: right;
+    font-size: 9px;
+}
+
+.numbers {
+    font-size: 9px;
+}
+
+.stepBar .startStep,
+.stepBar .endStep {
+    width: 1px;
     background-color: black;
 }
