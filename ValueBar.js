@@ -17,30 +17,51 @@ class ValueBar {
         this._Config = {
             Step: Step ? this.Step : 1,
         };
+
         this.slider = document.createElement('div');
         this.toddler = document.createElement('div');
         this.filledArea = document.createElement('div');
         this.valueArea = document.createElement('input');
         this.stepBar = document.createElement('div');
+
         this.stepBar.classList.add('stepBar');
-        this.valueArea.type = 'textarea';
         this.valueArea.classList.add('valueArea');
-        this.valueArea.value = this.Current;
         this.filledArea.classList.add('filledArea');
-        this.slider.id = 'slider';
         this.toddler.classList.add('thumb');
+        this.slider.id = 'slider';
+        this.valueArea.type = 'textarea';
+
+        this.roundToStep = (value, step) => {
+            return Math.round(value/step)*step;
+        };
+
+        if (this.Current % this.Step !== 0) {
+            this.Current = this.roundToStep(this.Current, this.Step);
+            this.Current = this.Current < this.Min ? this.Min : this.Current;
+            this.Current = this.Current > this.Max ? this.Max : this.Current;
+        }
+
+        this.valueArea.value = this.Current;
         this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
         this.filledArea.style.width = this.toddler.style.left;
+
         this.slider.appendChild(this.filledArea);
         this.slider.appendChild(this.toddler);
         this.Target.appendChild(this.slider);
         this.Target.appendChild(this.stepBar);
-        // this.stepBar.style.width = this.Target.style.width;
-        this._addSteps(this.stepBar);
+        if (isShowStep) this._addSteps(this.stepBar);
         this.Target.appendChild(this.valueArea);
+
         this.slider.addEventListener('mousedown', this._onMouseDown.bind(this));
         document.addEventListener('mousemove', this._onMouseMove.bind(this));
-        document.addEventListener('mouseup', this._onMouseUp.bind(this))
+        document.addEventListener('mouseup', this._onMouseUp.bind(this));
+        this.valueArea.addEventListener('keydown', evt => {
+            if (evt.keyCode === 13) {
+                this.Current = this.valueArea.value;
+                this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
+                this.filledArea.style.width = this.toddler.style.left;
+            }
+        })
     }
 
     _onMouseDown(e) {
@@ -48,6 +69,9 @@ class ValueBar {
         this.isMouseDown = true;
         this.toddlerCoords = ValueBar.getCoords.call(this, this.toddler);
         this.shiftX = e.pageX - this.toddlerCoords.left;
+        if (this.isShowStep && this.Target.offsetWidth % this.shiftX !== this.Max % this.Step || this.shiftX < this.Target.offsetWidth / this.CountOfSteps) {
+            this.shiftX = this.roundToStep(this.shiftX, (this.Target.offsetWidth / this.CountOfSteps))
+        }
         this.toddler.style.left = `calc(${this.toddler.style.left} + ${this.shiftX}px)`;
         this.filledArea.style.width = this.toddler.style.left;
         this.newCurrent = Math.round((this.Max - this.Min) * this.filledArea.offsetWidth /
@@ -60,6 +84,9 @@ class ValueBar {
         if (this.isMouseDown) {
             this.sliderCoords = ValueBar.getCoords.call(this, this.slider);
             this.newLeft = e.pageX - this.sliderCoords.left;
+            if (this.isShowStep && this.Target.offsetWidth % this.newLeft !== this.Max % this.Step || this.newLeft < this.Target.offsetWidth / this.CountOfSteps) {
+                this.newLeft = this.roundToStep(this.newLeft, (this.Target.offsetWidth / this.CountOfSteps))
+            }
             if (this.newLeft < 0) this.newLeft = 0;
             let rightSide = this.slider.clientWidth - this.toddler.offsetWidth;
             if (this.newLeft > rightSide) this.newLeft = rightSide;
@@ -92,50 +119,41 @@ class ValueBar {
         this.Current = newValue;
     }
 
-    Progress(Step = this._Config.Step){
-
+    Progress () {
+        if (this.Target.offsetWidth - parseInt(this.toddler.style.left) < this.Target.offsetWidth / this.CountOfSteps) {
+            this.toddler.style.left = `${this.Target.offsetWidth}px`;
+        }
+        else {
+            this.toddler.style.left = (this.filledArea.offsetWidth + this.Target.offsetWidth / this.CountOfSteps) + `px`;
+        }
+        this.filledArea.style.width = this.toddler.style.left;
+        this.newCurrent = Math.round((this.Max - this.Min) * this.filledArea.offsetWidth /
+            this.Target.offsetWidth + this.Min);
+        this.Current = this.newCurrent;
+        this.valueArea.value = this.Current;
     }
 
+
     _addSteps (targetForSteps) {
-        let countOfSteps = this.Max / this.Step;
-        const   stepBarWidth = parseInt(targetForSteps.style.width),
-                numbersBar = document.createElement('div'),
-                startStepValue = document.createElement('div'),
-                endStepValue = document.createElement('div'),
-                startStep = document.createElement('div'),
-                endStep = document.createElement('div');
+        const   numbersBar = document.createElement('div');
         numbersBar.classList.add('numbersBar');
-        startStepValue.innerText = this.Min;
-        endStepValue.innerText = this.Max;
-        startStepValue.classList.add('startStep');
-        endStepValue.classList.add('endStep');
-        startStep.classList.add('startStep');
-        endStep.classList.add('endStep');
         this.Target.appendChild(numbersBar);
-        numbersBar.appendChild(startStepValue);
-        targetForSteps.appendChild(startStep);
         let currentInnerValue = this.Min;
-        for (let i = 1; i < countOfSteps; i++) {
-            currentInnerValue = currentInnerValue + this.Step;
+        this.CountOfSteps = (this.Max - this.Min) / this.Step;
+        for (let i = 0; i < this.CountOfSteps + 1; i++) {
+            targetForSteps.appendChild(this._createStep());
             numbersBar.appendChild(this._createStepsValue(currentInnerValue));
-        }
-        targetForSteps.appendChild(endStep);
-        numbersBar.appendChild(endStepValue);
-        const children = numbersBar.children;
-        let commonWidth = 0;
-        for (let child of children) {
-            commonWidth = commonWidth + child.offsetWidth;
-        }
-        const averageWidth = commonWidth / children.length / 0.8;
-        countOfSteps = this.Target.offsetWidth / averageWidth;
-        console.log(Math.round(countOfSteps));
-        const n = Math.round(countOfSteps / 20);
-        console.log(n);
-        if (commonWidth > this.Target.offsetWidth) {
-            for (let i = 0; i <= countOfSteps; i = i + n) {
+            currentInnerValue = currentInnerValue + this.Step;
+            if (currentInnerValue > this.Max) {
+                currentInnerValue = this.Max;
             }
         }
-
+        if ((this.Max - this.Min) % this.Step !== 0) {
+            const newMarginLeft = this.Target.offsetWidth *
+                ((this.Max - this.Min) % this.Step) / (this.Max - this.Min) * 0.5;
+            targetForSteps.lastChild.style.cssText = `margin-left: -${newMarginLeft}px`;
+            // numbersBar.lastChild.style.cssText = `margin-left: -${newMarginLeft}px`;
+        }
     }
 
     _createStep () {

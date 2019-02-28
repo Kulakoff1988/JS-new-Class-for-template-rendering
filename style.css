@@ -51,7 +51,6 @@ body {
     height: 10px;
     display: flex;
     justify-content: space-between;
-    overflow: inherit;
 }
 
 .division {
@@ -60,23 +59,7 @@ body {
     background-color: black;
 }
 
-.startStep {
-    font-size: 9px;
-    float: left;
-    left: 10px;
-}
-
-.endStep {
-    float: right;
-    font-size: 9px;
-}
-
 .numbers {
     font-size: 9px;
 }
 
-.stepBar .startStep,
-.stepBar .endStep {
-    width: 1px;
-    background-color: black;
-}
