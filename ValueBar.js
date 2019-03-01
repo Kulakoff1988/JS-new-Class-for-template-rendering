@@ -1,3 +1,7 @@
+const roundToStep = (value, step) => {
+    return Math.round(value/step)*step;
+};
+
 
 class ValueBar {
     constructor({
@@ -29,14 +33,10 @@ class ValueBar {
         this.filledArea.classList.add('filledArea');
         this.toddler.classList.add('thumb');
         this.slider.id = 'slider';
-        this.valueArea.type = 'textarea';
-
-        this.roundToStep = (value, step) => {
-            return Math.round(value/step)*step;
-        };
+        this.valueArea.type = 'number';
 
         if (this.Current % this.Step !== 0) {
-            this.Current = this.roundToStep(this.Current, this.Step);
+            this.Current = roundToStep(this.Current, this.Step);
             this.Current = this.Current < this.Min ? this.Min : this.Current;
             this.Current = this.Current > this.Max ? this.Max : this.Current;
         }
@@ -55,12 +55,11 @@ class ValueBar {
         this.slider.addEventListener('mousedown', this._onMouseDown.bind(this));
         document.addEventListener('mousemove', this._onMouseMove.bind(this));
         document.addEventListener('mouseup', this._onMouseUp.bind(this));
-        this.valueArea.addEventListener('keydown', evt => {
-            if (evt.keyCode === 13) {
-                this.Current = this.valueArea.value;
-                this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
-                this.filledArea.style.width = this.toddler.style.left;
-            }
+        this.valueArea.addEventListener('input', () => {
+            this.Current = this.valueArea.value > this.Max ? this.Max : this.valueArea.value;
+            this.Current = roundToStep(this.Current, this.Step);
+            this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
+            this.filledArea.style.width = this.toddler.style.left;
         })
     }
 
@@ -69,8 +68,9 @@ class ValueBar {
         this.isMouseDown = true;
         this.toddlerCoords = ValueBar.getCoords.call(this, this.toddler);
         this.shiftX = e.pageX - this.toddlerCoords.left;
-        if (this.isShowStep && this.Target.offsetWidth % this.shiftX !== this.Max % this.Step || this.shiftX < this.Target.offsetWidth / this.CountOfSteps) {
-            this.shiftX = this.roundToStep(this.shiftX, (this.Target.offsetWidth / this.CountOfSteps))
+        if (this.isShowStep && this.Target.offsetWidth % this.shiftX !== this.Max % this.Step ||
+            this.shiftX < this.Target.offsetWidth / this.CountOfSteps) {
+            this.shiftX = roundToStep(this.shiftX, (this.Target.offsetWidth / ((this.Max - this.Min) / this.Step)));
         }
         this.toddler.style.left = `calc(${this.toddler.style.left} + ${this.shiftX}px)`;
         this.filledArea.style.width = this.toddler.style.left;
@@ -84,8 +84,9 @@ class ValueBar {
         if (this.isMouseDown) {
             this.sliderCoords = ValueBar.getCoords.call(this, this.slider);
             this.newLeft = e.pageX - this.sliderCoords.left;
-            if (this.isShowStep && this.Target.offsetWidth % this.newLeft !== this.Max % this.Step || this.newLeft < this.Target.offsetWidth / this.CountOfSteps) {
-                this.newLeft = this.roundToStep(this.newLeft, (this.Target.offsetWidth / this.CountOfSteps))
+            if (this.isShowStep && this.Target.offsetWidth % this.newLeft !== this.Max % this.Step ||
+                this.newLeft < this.Target.offsetWidth / (this.Max - this.Min) / this.Step) {
+                this.newLeft = roundToStep(this.newLeft, (this.Target.offsetWidth / ((this.Max - this.Min) / this.Step)));
             }
             if (this.newLeft < 0) this.newLeft = 0;
             let rightSide = this.slider.clientWidth - this.toddler.offsetWidth;
@@ -94,7 +95,7 @@ class ValueBar {
             this.filledArea.style.width = this.toddler.style.left;
             this.newCurrent = Math.round((this.Max - this.Min) * this.filledArea.offsetWidth /
                 this.Target.offsetWidth + this.Min);
-            this.Current = this.newCurrent;
+            this.Current = this.Current > this.Max ? this.Max : roundToStep(this.newCurrent, this.Step);
             this.valueArea.value = this.Current
         }
     }
@@ -120,40 +121,59 @@ class ValueBar {
     }
 
     Progress () {
-        if (this.Target.offsetWidth - parseInt(this.toddler.style.left) < this.Target.offsetWidth / this.CountOfSteps) {
+        if (this.Target.offsetWidth - parseInt(this.toddler.style.left) < this.Target.offsetWidth / ((this.Max - this.Min) / this.Step)) {
             this.toddler.style.left = `${this.Target.offsetWidth}px`;
         }
         else {
-            this.toddler.style.left = (this.filledArea.offsetWidth + this.Target.offsetWidth / this.CountOfSteps) + `px`;
+            this.toddler.style.left = (this.filledArea.offsetWidth + this.Target.offsetWidth / ((this.Max - this.Min) / this.Step)) + `px`;
         }
         this.filledArea.style.width = this.toddler.style.left;
         this.newCurrent = Math.round((this.Max - this.Min) * this.filledArea.offsetWidth /
             this.Target.offsetWidth + this.Min);
+        this.newCurrent = roundToStep(this.newCurrent, Math.floor((this.Max - this.Min) / this.Step));
         this.Current = this.newCurrent;
         this.valueArea.value = this.Current;
     }
 
+    _countOfRenderSteps (dom) {
+        let commonWidth = 0;
+        for (let child of dom.children) {
+            commonWidth = commonWidth + child.offsetWidth;
+        }
+
+    }
+
 
     _addSteps (targetForSteps) {
-        const   numbersBar = document.createElement('div');
+        const numbersBar = document.createElement('div');
         numbersBar.classList.add('numbersBar');
         this.Target.appendChild(numbersBar);
         let currentInnerValue = this.Min;
-        this.CountOfSteps = (this.Max - this.Min) / this.Step;
-        for (let i = 0; i < this.CountOfSteps + 1; i++) {
+        this.CountOfSteps = (this.Max - this.Min) / this.Step > 10 ? 10 : (this.Max - this.Min) / this.Step;
+        this.Multiplier = roundToStep(this.Max / this.CountOfSteps, this.Step);
+        for (let i = 0; i < (this.Max - this.Min) / this.Step + 1; i++) {
             targetForSteps.appendChild(this._createStep());
+        }
+        for (let j = 0; j < this.Max / this.Multiplier; j++) {
             numbersBar.appendChild(this._createStepsValue(currentInnerValue));
-            currentInnerValue = currentInnerValue + this.Step;
+            currentInnerValue = currentInnerValue + this.Multiplier;
             if (currentInnerValue > this.Max) {
                 currentInnerValue = this.Max;
+
             }
+        }
+        const numbersLast = numbersBar.lastChild;
+        if (numbersLast.innerText !== String(this.Max)) {
+            currentInnerValue = this.Max;
+            numbersBar.appendChild(this._createStepsValue(currentInnerValue));
         }
         if ((this.Max - this.Min) % this.Step !== 0) {
             const newMarginLeft = this.Target.offsetWidth *
-                ((this.Max - this.Min) % this.Step) / (this.Max - this.Min) * 0.5;
+                ((this.Max - this.Min) % this.Step) / (this.Max - this.Min);
             targetForSteps.lastChild.style.cssText = `margin-left: -${newMarginLeft}px`;
-            // numbersBar.lastChild.style.cssText = `margin-left: -${newMarginLeft}px`;
+            numbersBar.lastChild.style.cssText = `margin-left: -${newMarginLeft}px`;
         }
+        this._countOfRenderSteps(numbersBar);
     }
 
     _createStep () {
@@ -165,73 +185,31 @@ class ValueBar {
     _createStepsValue (innerStepValue) {
         this.stepValue = document.createElement('div');
         this.stepValue.classList.add('numbers');
-        this.stepValue.innerText = String(innerStepValue);
+        this.stepValue.innerText = this._roundStepValue(innerStepValue);
         return this.stepValue;
     }
+
+    _roundStepValue (value) {
+        let innerText = value;
+        if (value >= 1000 && value < 1000000 && value !== 0) {
+            if (value % 1000 !== 0) {
+                innerText = (value / 1000).toFixed(1) + `k`;
+            }
+            else {
+                innerText = value / 1000 + `k`;
+            }
+        }
+        if (value >= 1000000) {
+            if (value % 1000000 !== 0) {
+                innerText = (value / 1000000).toFixed(2) + `m`;
+            }
+            else {
+                innerText = value / 1000000 + `m`;
+            }
+        }
+            return innerText;
+    }
 }
-
-/*class Toddler {
-    constructor({ slider, toddler }) {
-        this.slider = document.querySelector(slider);
-        this.toddler = document.querySelector(toddler);
-
-        this.toddler.addEventListener('mousedown', this.onMouseDown.bind(this));
-        document.addEventListener('mousemove', this.onMouseMove.bind(this));
-        document.addEventListener('mouseup', this.onMouseUp.bind(this))
-
-    }
-
-    onMouseDown(e) {
-        e.preventDefault();
-        this.isMouseDown = true;
-        this.toddlerCoords = this.getCoords.call(this, this.toddler);
-        this.shiftX = e.pageX - this.toddlerCoords.left
-    }
-
-    onMouseMove(e) {
-        if (this.isMouseDown) {
-            this.sliderCoords = this.getCoords.call(this, this.slider);
-            this.newLeft = e.pageX - this.shiftX - this.sliderCoords.left;
-
-            if (this.newLeft < 0) this.newLeft = 0;
-            let rightSide = this.slider.clientWidth - this.toddler.offsetWidth;
-            if (this.newLeft > rightSide) this.newLeft = rightSide;
-
-            this.toddler.style.left = this.newLeft + 'px'
-        }
-    }
-
-    onMouseUp() {
-        this.isMouseDown = false
-    }
-
-    getCoords(elem) {
-        let box = elem.getBoundingClientRect();
-        return {
-            left: box.left,
-            top: box.top + pageYOffset
-        }
-    }
-
-}*/
-
-/*new Toddler({
-    slider: '#slider',
-    toddler: '.thumb'
-});*/
-
-/*let Bar = new ValueBar({Max: 100, Step: 1,});
-
-
-let inter = setInterval(()=>{
-    Bar.Progress();
-    //let isFinish = checkForFinish();
-    if (isFinish){
-        Bar.Value = 100;
-        clearInterval(inter);
-    }
-}, 2000);*/
-
 
 
 // |===============--------|

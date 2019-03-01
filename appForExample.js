@@ -34,11 +34,8 @@ const   switchButtonsHandler = handlerList => {
 
 const   dataAreasContainer = document.querySelector('.maincontent'),
         navigatorButtons = document.querySelector('.navigator'),
-        dataAreasList = dataAreasContainer.children,
         tabsForHumans = document.querySelector('.tabsForHumans'),
-        humansPanels = document.querySelector('.Humans'),
-        tabsButtons = document.querySelectorAll('.humansChoiceInput'),
-        contentPanels = document.querySelectorAll('.panelsForHumans');
+        humansPanels = document.querySelector('.Humans');
 
 const mainContentHandler = [
     {
