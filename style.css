@@ -12,7 +12,7 @@ body {
     position: relative;
 }
 
-#slider {
+.slider {
     /*background: #E0E0E0;*/
     /*background: -moz-linear-gradient(left top, #E0E0E0, #EEEEEE) repeat scroll 0 0 transparent;*/
     /*background: -webkit-gradient(linear, left top, right bottom, from(#E0E0E0), to(#EEEEEE));*/
@@ -49,7 +49,6 @@ body {
 .numbersBar {
     position: relative;
     right: 3px;
-    width: 105%;
     height: 10px;
     display: flex;
     justify-content: space-between;
