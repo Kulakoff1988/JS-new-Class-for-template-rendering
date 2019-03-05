@@ -10,13 +10,10 @@ body {
     height: 3vh;
     margin: 100px;
     position: relative;
+    width: 300px;
 }
 
 .slider {
-    /*background: #E0E0E0;*/
-    /*background: -moz-linear-gradient(left top, #E0E0E0, #EEEEEE) repeat scroll 0 0 transparent;*/
-    /*background: -webkit-gradient(linear, left top, right bottom, from(#E0E0E0), to(#EEEEEE));*/
-    /*background: linear-gradient(left top, #E0E0E0, #EEEEEE);*/
     background-color: white;
     width: 100%;
     height: 100%;
@@ -39,19 +36,19 @@ body {
 }
 
 .stepBar {
-    height: 0.6em;
+    position: relative;
+    min-height: 0.6em;
     width: 100%;
     margin-left: 2px;
     display: flex;
     justify-content: space-between;
 }
 
-.numbersBar {
-    position: relative;
-    right: 3px;
-    height: 10px;
+.divisionContainer {
+    height: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
 }
 
 .division {
@@ -60,7 +57,16 @@ body {
     background-color: black;
 }
 
+.numbersBar {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    right: 5px;
+}
+
 .numbers {
+    position: relative;
     font-size: 0.6em;
 }
+
 
