@@ -126,6 +126,10 @@ class ValueBar {
 
     set Value(newValue){
         this.Current = newValue;
+        this.Current = roundToStep(this.Current, this.Step);
+        this.valueArea.value = this.Current;
+        this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
+        this.filledArea.style.width = this.toddler.style.left;
     }
 
     Progress () {
@@ -149,13 +153,15 @@ class ValueBar {
         const countOfDivisions = Math.round(targetForSteps.offsetWidth / this.stepDistance);
         let stepInnerText = this.Min;
         for (let i = 0; i < countOfDivisions + 1; i++) {
-            targetForSteps.appendChild(this._createDivisionContainer(stepInnerText));
+            targetForSteps.appendChild(this._createDivisionContainer());
             stepInnerText = Math.round(stepInnerText + (this.stepDistance / this.Target.offsetWidth) * (this.Max - this.Min));
         }
+
+
         if ((this.Max - this.Min) % this.Step !== 0) {
-            console.log((this.Max - this.Min) % this.Step / this.Max);
             targetForSteps.lastChild.style.marginLeft = -((this.Max - this.Min) % this.Step / this.Max) * this.Target.offsetWidth / 2 + `px`;
         }
+
         const numbersBar = document.createElement('div');
         numbersBar.classList.add('numbersBar');
         numbersBar.style.width = this.Target.offsetWidth + this.Target.offsetWidth * 0.05 + `px`;
@@ -172,6 +178,7 @@ class ValueBar {
                 currentInnerValue = this.Max;
             }
         }
+
         this.commonWidth = 0;
         for (let dom of numbersBar.children) {
             this.commonWidth += dom.offsetWidth;
@@ -179,19 +186,30 @@ class ValueBar {
         if (this.commonWidth > numbersBar.offsetWidth) {
             this._removeDoms(numbersBar);
         }
-        if (numbersBar.lastChild.offsetWidth * 0.7 > numbersBar.firstChild.offsetWidth) {
-            numbersBar.firstChild.style.marginRight = numbersBar.lastChild.offsetWidth * 0.3 + `px`;
-            numbersBar.style.right = 0;
+
+        let stepCoords = [];
+        for (let step of targetForSteps.children) {
+            let coord = ValueBar.getCoords.call(this, step);
+            stepCoords.push(coord.left)
         }
-        numbersBar.style.width = numbersBar.offsetWidth + numbersBar.lastChild.offsetWidth * 0.3 + `px`;
+
+        let previousWidth = 0;
+        for (let k = 1; k < numbersBar.children.length; k++) {
+            this._alignItems(numbersBar.children[k], stepCoords[k], previousWidth);
+            previousWidth = previousWidth + numbersBar.children[k].offsetWidth;
+        }
+
+        let numbersCoords = [];
+        for (let number of numbersBar.children) {
+            let numCoord = ValueBar.getCoords.call(this, number);
+            numbersCoords.push(numCoord);
+        }
     }
 
-    _createDivisionContainer (innerText) {
+    _createDivisionContainer () {
         this.divisionContainer = document.createElement('div');
         this.divisionContainer.classList.add('divisionContainer');
-        // this.divisionContainer.style.width = this.Target.offsetWidth * 0.83 + `px`;
         this.divisionContainer.appendChild(this._createStep());
-        // this.divisionContainer.appendChild(this._createStepsValue(innerText));
         return this.divisionContainer;
     }
 
@@ -209,9 +227,9 @@ class ValueBar {
     }
 
     _removeDoms (parent) {
+        console.log(`remove!`)
         for (let child of parent.children) {
             if (child !== parent.firstChild && child !== parent.lastChild) {
-                console.log(child);
                 parent.removeChild(child);
             }
         }
@@ -222,6 +240,10 @@ class ValueBar {
         if (this.commonWidth > parent.offsetWidth) {
             this._removeDoms(parent);
         }
+    }
+
+    _alignItems (item, stepLeft, previousWidth) {
+        item.style.left = stepLeft - previousWidth - item.offsetWidth - 100 + `px`;
     }
 
     _roundStepValue (value) {

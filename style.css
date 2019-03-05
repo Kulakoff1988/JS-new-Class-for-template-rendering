@@ -58,13 +58,13 @@ body {
 }
 
 .numbersBar {
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
     position: relative;
-    right: 5px;
+    /*right: 5px;*/
 }
 
 .numbers {
+    float: left;
     position: relative;
     font-size: 0.6em;
 }
