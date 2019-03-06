@@ -269,7 +269,6 @@ class ValueBar {
             if (roundToStep(+step.value, numberSectionRate) % numberSectionRate === 0) {
                 step.value = roundToStep(+step.value, numberSectionRate);
             }
-            console.log(step.value);
         }
         this._alignElements(steps,numbers);
     }
@@ -300,7 +299,6 @@ class ValueBar {
             else {
                 innerText = value / 1000000 + `M`;
             }
-            console.log(typeof innerText);
             return innerText;
         }
         if (value >= 1000 && value < 1000000 && value !== 0) {
