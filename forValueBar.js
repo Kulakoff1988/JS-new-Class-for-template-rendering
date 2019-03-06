@@ -2,9 +2,8 @@ const valueBar = document.querySelector('.sliderContainer');
 
 const Bar = new ValueBar ({
     Target: valueBar,
-    Max: 100,
+    Max: 2000,
     Min: 0,
-    Current: 20,
+    Current: 0,
     isShowStep: true,
-    Step: 10
 });

@@ -10,7 +10,8 @@ class ValueBar {
                     Min = 0,
                     Current = Min,
                     isShowStep = false,
-                    Step = null
+                    Step = null,
+                    isRoundScale = false
                 }) {
         this.Target = Target;
         this.Width = this.Target.offsetWidth;
@@ -19,6 +20,9 @@ class ValueBar {
         this.Current = Current;
         this.isShowStep = isShowStep;
         this.Step = Step ? Math.abs(Step) : 1;
+        this.isRoundScale = isRoundScale;
+        this.isEvenlyStep = (this.Max - this.Min) % this.Step === 0;
+        this.targetCoords = this._getCoords.call(this, this.Target);
 
         this.slider = document.createElement('div');
         this.toddler = document.createElement('div');
@@ -47,7 +51,7 @@ class ValueBar {
         this.slider.appendChild(this.toddler);
         this.Target.appendChild(this.slider);
         this.Target.appendChild(this.stepBar);
-        if (this.isShowStep) this._addSteps(this.stepBar);
+        if (this.isShowStep) this._addScale(this.stepBar);
         this.Target.appendChild(this.valueArea);
 
         this.slider.addEventListener('mousedown', this._onMouseDown.bind(this));
@@ -59,22 +63,19 @@ class ValueBar {
             this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
             this.filledArea.style.width = this.toddler.style.left;
         });
-        // window.addEventListener(`resize`, () => {
-        //     this.commonWidth = 0;
-        //     this.numbersBar = this.Target.querySelector('.numbersBar');
-        //     for (let dom of this.numbersBar.children) {
-        //         this.commonWidth += dom.offsetWidth;
-        //     }
-        //     if (this.commonWidth > this.numbersBar.offsetWidth) {
-        //         this._removeDoms(this.numbersBar);
-        //     }
-        // })
+        window.addEventListener(`resize`, () => {
+            if (this.isShowStep) {
+                // const numbersBar = this.Target.querySelector('numbersBar');
+                // this._addScale();
+                this._countCommonWidth();
+            }
+        })
     }
 
     _onMouseDown(e) {
         e.preventDefault();
         this.isMouseDown = true;
-        this.toddlerCoords = ValueBar.getCoords.call(this, this.toddler);
+        this.toddlerCoords = this._getCoords.call(this, this.toddler);
         this.shiftX = e.pageX - this.toddlerCoords.left;
         if (this.isShowStep && this.Target.offsetWidth % this.shiftX !== this.Max % this.Step ||
             this.shiftX < this.Target.offsetWidth / this.CountOfSteps) {
@@ -90,7 +91,7 @@ class ValueBar {
 
     _onMouseMove(e) {
         if (this.isMouseDown) {
-            this.sliderCoords = ValueBar.getCoords.call(this, this.slider);
+            this.sliderCoords = this._getCoords.call(this, this.slider);
             this.newLeft = e.pageX - this.sliderCoords.left;
             if (this.isShowStep && this.Target.offsetWidth % this.newLeft !== this.Max % this.Step ||
                 this.newLeft < this.Target.offsetWidth / (this.Max - this.Min) / this.Step) {
@@ -101,8 +102,7 @@ class ValueBar {
             if (this.newLeft > rightSide) this.newLeft = rightSide;
             this.toddler.style.left = this.newLeft + 'px';
             this.filledArea.style.width = this.toddler.style.left;
-            this.newCurrent = Math.round((this.Max - this.Min) * this.filledArea.offsetWidth /
-                this.Target.offsetWidth + this.Min);
+            this.newCurrent = Math.round((this.Max - this.Min) * this.filledArea.offsetWidth / this.Target.offsetWidth + this.Min);
             this.Current = this.Current > this.Max ? this.Max : this.isShowStep ? roundToStep(this.newCurrent, this.Step) : this.newCurrent;
             this.valueArea.value = this.Current
         }
@@ -112,7 +112,7 @@ class ValueBar {
         this.isMouseDown = false;
     }
 
-    static getCoords(elem) {
+    _getCoords(elem) {
         const box = elem.getBoundingClientRect();
         return {
             left: box.left,
@@ -126,7 +126,9 @@ class ValueBar {
 
     set Value(newValue){
         this.Current = newValue;
-        this.Current = roundToStep(this.Current, this.Step);
+        this.Current = this.Current < this.Min ? this.Min : this.Current;
+        this.Current = this.Current > this.Max ? this.Max : this.Current;
+        this.Current = this.isShowStep ? roundToStep(this.Current, this.Step) : this.Current;
         this.valueArea.value = this.Current;
         this.toddler.style.left = `calc(${(this.Current - this.Min) / (this.Max - this.Min) * 100}%`;
         this.filledArea.style.width = this.toddler.style.left;
@@ -147,18 +149,12 @@ class ValueBar {
         this.valueArea.value = this.Current;
     }
 
-    _addSteps (targetForSteps) {
-        this.stepDistance = this.Target.offsetWidth / ((this.Max - this.Min) / this.Step);
-        this.stepDistance = roundToStep(this.stepDistance, Math.round(this.Target.offsetWidth / ((this.Max - this.Min) / this.Step)));
-        const countOfDivisions = Math.round(targetForSteps.offsetWidth / this.stepDistance);
-        let stepInnerText = this.Min;
-        for (let i = 0; i < countOfDivisions + 1; i++) {
-            targetForSteps.appendChild(this._createDivisionContainer());
-            stepInnerText = Math.round(stepInnerText + (this.stepDistance / this.Target.offsetWidth) * (this.Max - this.Min));
-        }
+    _addScale (targetForSteps) {
+        this.CountOfDivisions = this._countOfDivisions();
 
+        this._countCommonWidth(targetForSteps);
 
-        if ((this.Max - this.Min) % this.Step !== 0) {
+        if (!this.isEvenlyStep) {
             targetForSteps.lastChild.style.marginLeft = -((this.Max - this.Min) % this.Step / this.Max) * this.Target.offsetWidth / 2 + `px`;
         }
 
@@ -166,49 +162,40 @@ class ValueBar {
         numbersBar.classList.add('numbersBar');
         numbersBar.style.width = this.Target.offsetWidth + this.Target.offsetWidth * 0.05 + `px`;
         this.Target.appendChild(numbersBar);
+
         let currentInnerValue = this.Min;
-        this.Multiplier = roundToStep((this.Max - this.Min) / countOfDivisions, this.Step);
-        for (let j = 0; j < countOfDivisions + 1; j++) {
-            if (j === countOfDivisions) {
+        this.Multiplier = roundToStep((this.Max - this.Min) / this.CountOfDivisions, this.Step);
+
+        for (let j = 0; j < this.CountOfDivisions + 1; j++) {
+            if (j === this.CountOfDivisions) {
                 currentInnerValue = this.Max;
             }
-            numbersBar.appendChild(this._createStepsValue(currentInnerValue));
+            numbersBar.appendChild(this._createNumberValue(currentInnerValue));
             currentInnerValue = currentInnerValue + this.Multiplier;
-            if (currentInnerValue > this.Max) {
-                currentInnerValue = this.Max;
-            }
         }
 
-        this.commonWidth = 0;
-        for (let dom of numbersBar.children) {
-            this.commonWidth += dom.offsetWidth;
-        }
-        if (this.commonWidth > numbersBar.offsetWidth) {
-            this._removeDoms(numbersBar);
+        let valueOfStep = this.Min;
+        for (let i = 0; i < this.CountOfDivisions + 1; i++) {
+            targetForSteps.appendChild(this._createDivisionContainer(valueOfStep));
+            valueOfStep = valueOfStep + this.Step;
         }
 
-        let stepCoords = [];
-        for (let step of targetForSteps.children) {
-            let coord = ValueBar.getCoords.call(this, step);
-            stepCoords.push(coord.left)
-        }
+        this._countCommonWidth(numbersBar);
+        this._countCommonWidth(targetForSteps);
 
-        let previousWidth = 0;
-        for (let k = 1; k < numbersBar.children.length; k++) {
-            this._alignItems(numbersBar.children[k], stepCoords[k], previousWidth);
-            previousWidth = previousWidth + numbersBar.children[k].offsetWidth;
-        }
-
-        let numbersCoords = [];
-        for (let number of numbersBar.children) {
-            let numCoord = ValueBar.getCoords.call(this, number);
-            numbersCoords.push(numCoord);
-        }
+        this._alignElements(targetForSteps, numbersBar);
+        this._alignNumbers(targetForSteps, numbersBar);
     }
 
-    _createDivisionContainer () {
+    _countOfDivisions () {
+        return (this.Max - this.Min) % this.CountOfDivisions ?
+            roundToStep(this.CountOfDivisions, ((this.Max - this.Min) / this.Step)) : (this.Max - this.Min) / this.Step;
+    }
+
+    _createDivisionContainer (valueOfStep) {
         this.divisionContainer = document.createElement('div');
         this.divisionContainer.classList.add('divisionContainer');
+        this.divisionContainer.value = String(valueOfStep);
         this.divisionContainer.appendChild(this._createStep());
         return this.divisionContainer;
     }
@@ -219,31 +206,89 @@ class ValueBar {
         return this.division;
     }
 
-    _createStepsValue (innerStepValue) {
-        this.stepValue = document.createElement('div');
-        this.stepValue.classList.add('numbers');
-        this.stepValue.innerText = innerStepValue;
-        return this.stepValue;
+    _createNumberValue (innerStepValue) {
+        this.numberValue = document.createElement('div');
+        this.numberValue.classList.add('numbers');
+        this.numberValue.value = innerStepValue;
+        this.numberValue.innerText = this.isRoundScale ? this._roundStepValue(innerStepValue): innerStepValue;
+        return this.numberValue;
     }
 
-    _removeDoms (parent) {
-        console.log(`remove!`)
+    _countCommonWidth (parent) {
+        this.commonWidth = 0;
+        for (let dom of parent.children) {
+            this.commonWidth += dom.offsetWidth;
+        }
+
+        if (this.commonWidth * 1.3 > parent.offsetWidth) {
+            this._removeExcessElements(parent);
+        }
+    }
+
+    _alignElements (steps, numbers) {
+        let numbersCoords = [];
+        for (let number of numbers.children) {
+            let numCoord = this._getCoords.call(this, number);
+            numbersCoords.push(numCoord.left);
+        }
+
+        let stepCoords = [];
+        for (let step of steps.children) {
+            let coord = this._getCoords.call(this, step);
+            stepCoords.push(coord.left)
+        }
+
+        let previousWidth = 0;
+        for (let i = 0; i < numbers.children.length; i++) {
+            for (let j = 0; j < stepCoords.length; j++) {
+                if (+steps.children[j].value === +numbers.children[i].value) {
+                    numbers.children[i].style.left = this._indentCalculation(numbers.children[i], stepCoords[j], previousWidth) + `px`;
+                    previousWidth = previousWidth + numbers.children[i].offsetWidth;
+                }
+            }
+        }
+
+        if (parseInt(numbers.children[numbers.children.length - 1].style.left) < parseInt(numbers.children[numbers.children.length - 2].style.left)) {
+            numbers.removeChild(numbers.children[numbers.children.length - 2]);
+            numbers.children[numbers.children.length - 1].style.left =
+                this._indentCalculation(numbers.children[numbers.children.length - 1],
+                    stepCoords[stepCoords.length - 1] + numbers.children[numbers.children.length - 2].offsetWidth * 2,
+                    previousWidth) + `px`;
+        }
+    }
+
+    _alignNumbers(steps, numbers) {
+        const   numberSectionRate = (this.Max - this.Min) / (numbers.children.length - 1),
+                stepSectionRate = Math.round(this.Target.offsetWidth / (steps.children.length - 1));
+        for (let number of numbers.children) {
+            number.innerText = roundToStep(+number.innerText, numberSectionRate);
+            number.value = roundToStep(number.value, numberSectionRate);
+        }
+        for (let step of steps.children) {
+            step.value = roundToStep(+step.value, stepSectionRate);
+            if (roundToStep(+step.value, numberSectionRate) % numberSectionRate === 0) {
+                step.value = roundToStep(+step.value, numberSectionRate);
+            }
+            console.log(step.value);
+        }
+        this._alignElements(steps,numbers);
+    }
+
+    _removeExcessElements (parent) {
         for (let child of parent.children) {
             if (child !== parent.firstChild && child !== parent.lastChild) {
                 parent.removeChild(child);
             }
         }
-        this.commonWidth = 0;
-        for (let dom of parent.children) {
-            this.commonWidth += dom.offsetWidth;
-        }
-        if (this.commonWidth > parent.offsetWidth) {
-            this._removeDoms(parent);
-        }
+
+        this._countCommonWidth(parent);
+
+        this._alignElements(this.stepBar, parent);
     }
 
-    _alignItems (item, stepLeft, previousWidth) {
-        item.style.left = stepLeft - previousWidth - item.offsetWidth - 100 + `px`;
+    _indentCalculation (item, stepLeft, previousWidth) {
+        const indent = stepLeft - previousWidth - item.offsetWidth / 2 - this.targetCoords.left;
+        return indent;
     }
 
     _roundStepValue (value) {
@@ -255,6 +300,7 @@ class ValueBar {
             else {
                 innerText = value / 1000000 + `M`;
             }
+            console.log(typeof innerText);
             return innerText;
         }
         if (value >= 1000 && value < 1000000 && value !== 0) {
