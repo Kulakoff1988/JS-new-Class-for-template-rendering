@@ -151,7 +151,7 @@ class ValueBar {
 
     _addScale (targetForSteps) {
         this.CountOfDivisions = this._countOfDivisions();
-
+ 
         this._countCommonWidth(targetForSteps);
 
         if (!this.isEvenlyStep) {
@@ -264,12 +264,13 @@ class ValueBar {
             number.innerText = roundToStep(+number.innerText, numberSectionRate);
             number.value = roundToStep(number.value, numberSectionRate);
         }
-        for (let step of steps.children) {
-            step.value = roundToStep(+step.value, stepSectionRate);
-            if (roundToStep(+step.value, numberSectionRate) % numberSectionRate === 0) {
-                step.value = roundToStep(+step.value, numberSectionRate);
-            }
-        }
+
+        // for (let step of steps.children) {
+        //     step.value = roundToStep(+step.value, stepSectionRate);
+        //     if (roundToStep(+step.value, numberSectionRate) % numberSectionRate === 0) {
+        //         step.value = roundToStep(+step.value, numberSectionRate);
+        //     }
+        // }
         this._alignElements(steps,numbers);
     }
 
