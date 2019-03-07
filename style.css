@@ -6,11 +6,15 @@ body {
     padding: 0;
 }
 
+.target {
+    width: 400px;
+}
+
 .sliderContainer {
     height: 3vh;
     margin: 100px;
     position: relative;
-    width: 300px;
+    width: 100%;
 }
 
 .slider {
@@ -59,14 +63,17 @@ body {
 
 .numbersBar {
     width: 100%;
-    position: relative;
-    /*right: 5px;*/
 }
 
 .numbers {
     float: left;
     position: relative;
     font-size: 0.6em;
+}
+
+.valueArea {
+    position: relative;
+    top: 20px;
 }
 
 
