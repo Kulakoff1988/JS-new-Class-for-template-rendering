@@ -2,9 +2,9 @@ const valueBar = document.querySelector('.target');
 
 const Bar = new ValueBar ({
     Target: valueBar,
-    Max: 2000,
-    Min: -2000,
-    Current: -500,
-    Step: 20,
+    Max: 15000,
+    Min: -15000,
+    Current: 0,
     isShowStep: true,
+    Step: 1000,
 });
