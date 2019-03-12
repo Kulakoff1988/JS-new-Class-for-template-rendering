@@ -88,7 +88,7 @@ class ValueBar {
                 this._alignElements(this.stepBar, this.numbersBar);
             }
         })
-            }
+    }
 
     _onMouseDown(e) {
         e.preventDefault();
@@ -209,7 +209,6 @@ class ValueBar {
         }
         if (!this.isEvenlyStep && this.commonValue % (numbersBar.children.length - 1) !== 0) {
             this.stepBar.lastChild.style.marginLeft = -(this.commonValue % this.Step / this.commonValue) * this.container.offsetWidth + `px`;
-            // this.stepBar.firstChild.style.marginRight = -(this.commonValue % this.Step / this.Max) * this.container.offsetWidth * 2 + `px`;
         }
     }
 
