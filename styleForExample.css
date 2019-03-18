@@ -139,15 +139,13 @@ form {
     flex-direction: row;
     flex-wrap: wrap;
     clear: both;
-    min-height: 50px;
+    min-height: 40px;
     border: 1px solid #444440;
     margin: 0 2px 1px;
     overflow: hidden;
 }
 
 .template {
-    display: block;
-    float: left;
     margin: 2px 5px;
     width: 100px;
 }
